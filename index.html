@@ -130,35 +130,68 @@
           <!-- Falcon SVG -->
           <div class="falcon-avatar" id="falcon-avatar">
             <svg class="falcon-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Back wings / tail -->
+              <path d="M45 105 L35 115 L50 95 Z" fill="#3D3B4A" />
+              <path d="M75 105 L85 115 L70 95 Z" fill="#3D3B4A" />
               <!-- Body -->
-              <ellipse cx="60" cy="72" rx="22" ry="28" fill="white" opacity="0.95" />
+              <ellipse cx="60" cy="72" rx="20" ry="26" fill="#F0F0F5" />
+              <path d="M40 70 Q60 90 80 70 Q70 100 60 105 Q50 100 40 70" fill="#E2E2EA" />
+              <!-- Chest flecks (typical falcon patterning) -->
+              <path d="M50 70 L52 73 M60 74 L62 77 M70 68 L72 71 M55 82 L57 85 M65 84 L67 87" stroke="#8E8C9F"
+                stroke-width="1.5" stroke-linecap="round" />
+
+              <!-- Left Wing (Pointy, aerodynamic) -->
+              <path d="M38 52 Q20 50 15 85 Q30 75 42 70 Z" fill="#4B495C" />
+              <path d="M38 52 Q20 50 15 85 Q30 75 42 70 Z" fill="url(#wingGradL)" />
+              <path d="M22 65 L20 80 M30 62 L28 75" stroke="#373544" stroke-width="1.5" />
+
+              <!-- Right Wing -->
+              <path d="M82 52 Q100 50 105 85 Q90 75 78 70 Z" fill="#4B495C" />
+              <path d="M82 52 Q100 50 105 85 Q90 75 78 70 Z" fill="url(#wingGradR)" />
+              <path d="M98 65 L100 80 M90 62 L92 75" stroke="#373544" stroke-width="1.5" />
+
               <!-- Head -->
-              <circle cx="60" cy="40" r="18" fill="white" opacity="0.98" />
-              <!-- Beak -->
-              <path d="M60 48 L65 54 L55 54 Z" fill="#FFD60A" />
-              <!-- Eyes -->
-              <circle cx="53" cy="37" r="5" fill="#1C1C1E" />
-              <circle cx="67" cy="37" r="5" fill="#1C1C1E" />
-              <circle cx="54.5" cy="35.5" r="1.8" fill="white" />
-              <circle cx="68.5" cy="35.5" r="1.8" fill="white" />
-              <!-- Crown stripe -->
-              <path d="M43 30 Q60 22 77 30" stroke="#5856D6" stroke-width="3" fill="none" stroke-linecap="round" />
-              <!-- Left wing -->
-              <path d="M38 65 Q15 75 12 95 Q30 82 50 78" fill="white" opacity="0.88" />
-              <!-- Right wing -->
-              <path d="M82 65 Q105 75 108 95 Q90 82 70 78" fill="white" opacity="0.88" />
-              <!-- Chest pattern -->
-              <ellipse cx="60" cy="78" rx="10" ry="12" fill="#E8E8F0" opacity="0.7" />
+              <circle cx="60" cy="38" r="16" fill="#F0F0F5" />
+              <!-- Peregrine Falcon dark "helmet" -->
+              <path d="M44 38 Q60 20 76 38 L80 44 Q70 30 60 30 Q50 30 40 44 Z" fill="#2E2C38" />
+              <path d="M45 38 L43 50 L52 42 Z" fill="#2E2C38" />
+              <path d="M75 38 L77 50 L68 42 Z" fill="#2E2C38" />
+
+              <!-- Raptor Beak -->
+              <path d="M55 42 Q60 40 65 42 L65 46 Q60 55 60 55 Q60 55 55 46 Z" fill="#FFC107" />
+              <path d="M58 46 Q60 56 60 56 Q60 56 62 46 Z" fill="#2E2C38" />
+
+              <!-- Intense Falcon Eyes -->
+              <circle cx="51" cy="36" r="4.5" fill="#1C1C1E" />
+              <circle cx="69" cy="36" r="4.5" fill="#1C1C1E" />
+              <circle cx="52.5" cy="35" r="1.5" fill="white" />
+              <circle cx="70.5" cy="35" r="1.5" fill="white" />
+
+              <!-- Yellow eye rings -->
+              <circle cx="51" cy="36" r="5" stroke="#FFC107" stroke-width="1" fill="none" />
+              <circle cx="69" cy="36" r="5" stroke="#FFC107" stroke-width="1" fill="none" />
+
               <!-- Talons -->
-              <path d="M50 96 Q47 105 44 106 M50 96 Q50 105 50 108 M50 96 Q53 105 56 106" stroke="#FFD60A"
-                stroke-width="2" fill="none" stroke-linecap="round" />
-              <path d="M70 96 Q73 105 76 106 M70 96 Q70 105 70 108 M70 96 Q67 105 64 106" stroke="#FFD60A"
-                stroke-width="2" fill="none" stroke-linecap="round" />
-              <!-- Wing shimmer -->
-              <path d="M18 88 Q25 82 35 80" stroke="rgba(88,86,214,.4)" stroke-width="1.5" fill="none"
+              <path d="M50 96 Q47 105 44 106 M50 96 Q50 105 50 108 M50 96 Q53 105 56 106" stroke="#FFC107"
+                stroke-width="2.5" fill="none" stroke-linecap="round" />
+              <path d="M70 96 Q73 105 76 106 M70 96 Q70 105 70 108 M70 96 Q67 105 64 106" stroke="#FFC107"
+                stroke-width="2.5" fill="none" stroke-linecap="round" />
+              <path d="M44 106 L43 108 M50 108 L50 110 M56 106 L57 108" stroke="#1C1C1E" stroke-width="1.5" fill="none"
                 stroke-linecap="round" />
-              <path d="M102 88 Q95 82 85 80" stroke="rgba(88,86,214,.4)" stroke-width="1.5" fill="none"
+              <path d="M76 106 L77 108 M70 108 L70 110 M64 106 L63 108" stroke="#1C1C1E" stroke-width="1.5" fill="none"
                 stroke-linecap="round" />
+
+              <!-- Gradients for wings to make them look sleek -->
+              <defs>
+                <linearGradient id="wingGradL" x1="40" y1="50" x2="15" y2="85" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#6F6C85" stop-opacity="0.8" />
+                  <stop offset="1" stop-color="#2E2C38" stop-opacity="0.9" />
+                </linearGradient>
+                <linearGradient id="wingGradR" x1="80" y1="50" x2="105" y2="85" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#6F6C85" stop-opacity="0.8" />
+                  <stop offset="1" stop-color="#2E2C38" stop-opacity="0.9" />
+                </linearGradient>
+              </defs>
             </svg>
           </div>
 
