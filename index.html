@@ -9,10 +9,28 @@
   <meta name="description"
     content="Gamified German article learning app — master der, die, das with 3 mini-games and 200+ words" />
   <meta name="theme-color" content="#5856D6" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400;1,14..32,500&display=swap"
+    rel="stylesheet" />
+
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/word-scenes.css" />
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <!-- Scripts (deferred for performance) -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+  <script src="js/words-data.js" defer></script>
+  <script src="js/app.js" defer></script>
+  <script src="js/word-icons.js" defer></script>
+  <script src="js/word-scenes.js" defer></script>
+  <script src="js/dictionary.js" defer></script>
+  <script src="js/translator.js" defer></script>
+  <script src="js/falcon.js" defer></script>
+  <script src="js/game1.js" defer></script>
+  <script src="js/game2.js" defer></script>
+  <script src="js/game3.js" defer></script>
+  <script src="js/stats.js" defer></script>
 </head>
 
 <body>
@@ -535,24 +553,6 @@
       </div>
     </div>
   </div>
-
-  <!-- ══ Scripts ══ -->
-  <script src="js/words-data.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/word-icons.js"></script>
-  <script src="js/word-scenes.js"></script>
-  <script src="js/dictionary.js"></script>
-  <script src="js/translator.js"></script>
-  <script src="js/falcon.js"></script>
-  <script src="js/game1.js"></script>
-  <script src="js/game2.js"></script>
-  <script src="js/game3.js"></script>
-  <script src="js/stats.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      if (window.lucide) lucide.createIcons();
-    });
-  </script>
 </body>
 
 </html>
