@@ -755,6 +755,28 @@ body {
   margin: 12px auto 16px;
 }
 
+.modal-close-top {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface2);
+  color: var(--text2);
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s;
+}
+
+.modal-close-top:hover {
+  background: var(--border);
+}
+
 .modal-inner {
   padding: 0 20px 8px;
 }

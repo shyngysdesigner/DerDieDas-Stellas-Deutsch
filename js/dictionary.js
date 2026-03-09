@@ -444,10 +444,17 @@ const Dictionary = (() => {
         // Main TTS buttons
         const ttsWord = overlay.querySelector('#btn-tts');
         const close = overlay.querySelector('#btn-close-modal');
+        const closeTop = overlay.querySelector('#btn-close-modal-top');
         const newTtsWord = ttsWord.cloneNode(true);
         const newClose = close.cloneNode(true);
         ttsWord.replaceWith(newTtsWord);
         close.replaceWith(newClose);
+
+        if (closeTop) {
+            const newCloseTop = closeTop.cloneNode(true);
+            closeTop.replaceWith(newCloseTop);
+            newCloseTop.addEventListener('click', closeModal);
+        }
 
         newTtsWord.addEventListener('click', () => App.speak(word.word));
         newClose.addEventListener('click', closeModal);
@@ -490,7 +497,47 @@ const Dictionary = (() => {
                 });
             }
             searchListenerAdded = true;
+            setupSwipeToClose();
         }
+    }
+
+    function setupSwipeToClose() {
+        const overlay = document.getElementById('word-modal');
+        const sheet = overlay.querySelector('.modal-sheet');
+        if (!sheet) return;
+
+        let startY = 0;
+        let currentY = 0;
+        let isDragging = false;
+
+        sheet.addEventListener('touchstart', (e) => {
+            if (sheet.scrollTop > 0) return;
+            startY = e.touches[0].clientY;
+            isDragging = true;
+            sheet.style.transition = 'none';
+        }, { passive: true });
+
+        sheet.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            const y = e.touches[0].clientY;
+            currentY = Math.max(0, y - startY);
+            if (currentY > 0) {
+                if (e.cancelable) e.preventDefault();
+                sheet.style.transform = `translateY(${currentY}px)`;
+            }
+        }, { passive: false });
+
+        sheet.addEventListener('touchend', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            sheet.style.transition = '';
+
+            if (currentY > 100) {
+                closeModal();
+            }
+            sheet.style.transform = '';
+            currentY = 0;
+        });
     }
 
     return { render, openModal, renderGrid };
