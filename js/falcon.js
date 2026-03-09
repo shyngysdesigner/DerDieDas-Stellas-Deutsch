@@ -176,5 +176,8 @@ const Falcon = (() => {
         showBubble(pick(MESSAGES[`idle_${lang}`]), 2000);
     }
 
-    return { init, onCorrect, onWrong, updateLang, showBubble, animateSpeak };
+    return { init, onCorrect, onWrong, updateLang, showBubble, animateSpeak, speakCurrentWord, nextWord };
 })();
+
+// Export globally
+window.Falcon = Falcon;

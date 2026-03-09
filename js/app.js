@@ -274,7 +274,7 @@ const App = (() => {
         Game1.init();
         Game2.init();
         Game3.init();
-        if (typeof Falcon !== 'undefined') Falcon.init();
+        if (window.Falcon) window.Falcon.init();
     }
 
     document.addEventListener('DOMContentLoaded', init);
