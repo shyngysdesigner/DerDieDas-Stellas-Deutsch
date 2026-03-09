@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light" data-lang="de">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>DerDieDas — Deutsch lernen</title>
+  <meta name="description"
+    content="Gamified German article learning app — master der, die, das with 3 mini-games and 200+ words" />
+  <meta name="theme-color" content="#5856D6" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/word-scenes.css" />
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+
+<body>
+  <div id="app">
+
+    <!-- ══ Top Nav ══ -->
+    <nav id="top-nav">
+      <div class="nav-brand">
+        <span class="nav-logo-text">DerDieDas</span>
+        <span class="nav-flag">🇩🇪</span>
+      </div>
+      <div class="nav-actions">
+        <div class="nav-xp" id="nav-xp-badge">
+          <i data-lucide="zap" class="icon-xs"></i>
+          <span id="nav-score-val">0</span> XP
+        </div>
+        <button class="icon-btn" id="btn-lang" title="Language">
+          <i data-lucide="languages" class="icon-sm"></i>
+          <span id="lang-label" class="lang-chip">RU</span>
+        </button>
+        <button class="icon-btn" id="btn-theme" title="Theme">
+          <i data-lucide="sun" class="icon-sm" id="theme-icon"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- ══ Main Content ══ -->
+    <main id="main-content">
+
+      <!-- ════ HOME — Vocabulary ════ -->
+      <div id="home-view" class="view active">
+        <div class="search-bar-wrap">
+          <i data-lucide="search" class="icon-sm search-icon"></i>
+          <input type="text" id="dict-search" class="search-input" placeholder="Suchen… / Search…" />
+          <button class="icon-btn" id="dict-search-clear" style="display:none">
+            <i data-lucide="x" class="icon-sm"></i>
+          </button>
+        </div>
+
+        <div class="category-pills" id="cat-pills">
+          <button class="cat-pill active" data-cat="all">
+            <i data-lucide="grid-3x3" class="icon-xs"></i>
+            <span data-i18n="all">Alle</span>
+          </button>
+        </div>
+
+        <div class="article-legend">
+          <span class="badge-der"><i data-lucide="circle" class="icon-xs"></i> der</span>
+          <span class="badge-die"><i data-lucide="circle" class="icon-xs"></i> die</span>
+          <span class="badge-das"><i data-lucide="circle" class="icon-xs"></i> das</span>
+        </div>
+
+        <div id="dict-grid" class="word-grid"></div>
+      </div>
+
+      <!-- ════ TRANSLATOR VIEW ════ -->
+      <div id="translate-view" class="view">
+        <div class="section-header">
+          <h2 class="section-title" data-i18n="translator">Übersetzer</h2>
+          <p class="section-sub">DE / RU</p>
+        </div>
+
+        <div class="translator-card">
+          <label class="trans-label" data-i18n="input-word">Deutsches oder russisches Wort:</label>
+          <div class="trans-input-row">
+            <input type="text" id="trans-input" class="trans-input" placeholder="z.B. Apfel, яблоко…" />
+            <button class="btn btn-primary" id="btn-translate">
+              <i data-lucide="languages" class="icon-sm"></i>
+              <span data-i18n="translate">Übersetzen</span>
+            </button>
+          </div>
+
+          <div class="trans-quick-label" data-i18n="from-files">Schnellauswahl:</div>
+          <div class="trans-quick-pills" id="trans-quick-pills"></div>
+
+          <div id="trans-result" class="trans-result hidden">
+            <div class="trans-result-de">
+              <div>
+                <div class="trans-result-lang"><i data-lucide="flag" class="icon-xs"></i> 🇩🇪 Deutsch</div>
+                <div class="trans-result-text" id="trans-de"></div>
+              </div>
+              <button class="icon-btn tts-mini" id="trans-tts-de">
+                <i data-lucide="volume-2" class="icon-sm"></i>
+              </button>
+            </div>
+            <div class="trans-result-ru">
+              <div>
+                <div class="trans-result-lang"><i data-lucide="flag" class="icon-xs"></i> 🇷🇺 Русский</div>
+                <div class="trans-result-text" id="trans-ru"></div>
+              </div>
+            </div>
+            <div class="trans-result-note" id="trans-note"></div>
+          </div>
+
+          <div id="trans-loading" class="trans-loading hidden">
+            <i data-lucide="loader-circle" class="icon-sm spinning"></i>
+            <span data-i18n="loading">Übersetzung wird geladen…</span>
+          </div>
+        </div>
+
+        <div class="section-header" style="margin-top:20px">
+          <h2 class="section-title" data-i18n="your-files">Wörtergruppen</h2>
+        </div>
+        <div class="csv-categories" id="csv-cat-grid"></div>
+      </div>
+
+      <!-- ════ GAMES HUB ════ -->
+      <div id="games-view" class="view">
+
+        <!-- Falcon Zone -->
+        <div class="falcon-zone">
+          <!-- Speech bubble -->
+          <div class="falcon-bubble" id="falcon-bubble">Bereit? 🦅</div>
+
+          <!-- Falcon SVG -->
+          <div class="falcon-avatar" id="falcon-avatar">
+            <svg class="falcon-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Body -->
+              <ellipse cx="60" cy="72" rx="22" ry="28" fill="white" opacity="0.95" />
+              <!-- Head -->
+              <circle cx="60" cy="40" r="18" fill="white" opacity="0.98" />
+              <!-- Beak -->
+              <path d="M60 48 L65 54 L55 54 Z" fill="#FFD60A" />
+              <!-- Eyes -->
+              <circle cx="53" cy="37" r="5" fill="#1C1C1E" />
+              <circle cx="67" cy="37" r="5" fill="#1C1C1E" />
+              <circle cx="54.5" cy="35.5" r="1.8" fill="white" />
+              <circle cx="68.5" cy="35.5" r="1.8" fill="white" />
+              <!-- Crown stripe -->
+              <path d="M43 30 Q60 22 77 30" stroke="#5856D6" stroke-width="3" fill="none" stroke-linecap="round" />
+              <!-- Left wing -->
+              <path d="M38 65 Q15 75 12 95 Q30 82 50 78" fill="white" opacity="0.88" />
+              <!-- Right wing -->
+              <path d="M82 65 Q105 75 108 95 Q90 82 70 78" fill="white" opacity="0.88" />
+              <!-- Chest pattern -->
+              <ellipse cx="60" cy="78" rx="10" ry="12" fill="#E8E8F0" opacity="0.7" />
+              <!-- Talons -->
+              <path d="M50 96 Q47 105 44 106 M50 96 Q50 105 50 108 M50 96 Q53 105 56 106" stroke="#FFD60A"
+                stroke-width="2" fill="none" stroke-linecap="round" />
+              <path d="M70 96 Q73 105 76 106 M70 96 Q70 105 70 108 M70 96 Q67 105 64 106" stroke="#FFD60A"
+                stroke-width="2" fill="none" stroke-linecap="round" />
+              <!-- Wing shimmer -->
+              <path d="M18 88 Q25 82 35 80" stroke="rgba(88,86,214,.4)" stroke-width="1.5" fill="none"
+                stroke-linecap="round" />
+              <path d="M102 88 Q95 82 85 80" stroke="rgba(88,86,214,.4)" stroke-width="1.5" fill="none"
+                stroke-linecap="round" />
+            </svg>
+          </div>
+
+          <!-- Word showcase -->
+          <div class="falcon-info">
+            <div class="falcon-title" id="falcon-title">Lerne dieses Wort:</div>
+            <div class="falcon-word" id="falcon-word">der Kaffee</div>
+            <div class="falcon-trans" id="falcon-trans">кофе</div>
+            <div class="falcon-actions">
+              <button class="falcon-btn falcon-btn-primary" id="falcon-speak-btn">
+                <i data-lucide="volume-2" style="width:13px;height:13px"></i>
+                Hören
+              </button>
+              <button class="falcon-btn falcon-btn-ghost" id="falcon-next-btn">
+                <i data-lucide="shuffle" style="width:13px;height:13px"></i>
+                Nächstes
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Games grid -->
+        <div class="games-section-label" data-i18n="games">Spiele</div>
+
+        <div class="game-cards-grid">
+          <!-- Featured: Tower Defense -->
+          <button class="game-card-featured" onclick="Game1.start()">
+            <div class="featured-icon">
+              <i data-lucide="castle" style="width:28px;height:28px;color:white"></i>
+            </div>
+            <div class="featured-content">
+              <div class="featured-tag" data-i18n="g1-title-tag">Spiel 1 · Empfohlen</div>
+              <div class="featured-title" data-i18n="g1-title">Tower Defense</div>
+              <div class="featured-desc" data-i18n="g1-desc">Ziehe Wörter auf den richtigen Turm</div>
+            </div>
+            <i data-lucide="chevron-right" style="width:22px;height:22px;color:rgba(255,255,255,.7)"></i>
+          </button>
+
+          <!-- Elixir Rush -->
+          <button class="game-card-new" onclick="Game2.start()"
+            style="--card-accent:#FF9500;--card-accent-bg:rgba(255,149,0,.12)">
+            <div class="game-card-icon">
+              <i data-lucide="zap" style="width:22px;height:22px;color:#FF9500"></i>
+            </div>
+            <div>
+              <div class="game-card-title" data-i18n="g2-title">Elixir Rush</div>
+              <div class="game-card-desc" data-i18n="g2-desc">Wähle den Artikel — schnell!</div>
+            </div>
+            <div class="game-card-badge">
+              <i data-lucide="timer" style="width:11px;height:11px"></i> 8s pro Wort
+            </div>
+          </button>
+
+          <!-- Focus Mode -->
+          <button class="game-card-new" onclick="Game3.start()"
+            style="--card-accent:#DB2777;--card-accent-bg:rgba(219,39,119,.12)">
+            <div class="game-card-icon">
+              <i data-lucide="target" style="width:22px;height:22px;color:#DB2777"></i>
+            </div>
+            <div>
+              <div class="game-card-title" data-i18n="g3-title">Focus Mode</div>
+              <div class="game-card-desc" data-i18n="g3-desc">Fülle den Artikel im Satz ein</div>
+            </div>
+            <div class="game-card-badge">
+              <i data-lucide="book-open" style="width:11px;height:11px"></i> Im Kontext
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- ════ GAME 1 — TOWER DEFENSE ════ -->
+      <div id="game1-view" class="view">
+        <div class="game-topbar">
+          <button class="btn btn-ghost btn-sm" onclick="App.navigate('games')">
+            <i data-lucide="arrow-left" class="icon-sm"></i>
+          </button>
+          <span class="game-topbar-title" data-i18n="g1-title">Tower Defense</span>
+          <div class="game-topbar-xp" id="g1-xp-display">⚡ 0</div>
+        </div>
+
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="g1-progress" style="width:0%"></div>
+        </div>
+        <div class="progress-label" id="g1-progress-label">0 / 10</div>
+
+        <div id="g1-game-area">
+          <div class="towers-row">
+            <div class="tower der-tower" data-article="der">
+              <span class="tower-count" id="g1-count-der" style="display:none"></span>
+              <div class="tower-label" style="color:var(--der)">DER</div>
+              <div class="tower-sub" data-i18n="masc">männlich</div>
+              <i data-lucide="shield" class="tower-icon" style="color:var(--der)"></i>
+            </div>
+            <div class="tower die-tower" data-article="die">
+              <span class="tower-count" id="g1-count-die" style="display:none"></span>
+              <div class="tower-label" style="color:var(--die)">DIE</div>
+              <div class="tower-sub" data-i18n="fem">weiblich</div>
+              <i data-lucide="shield" class="tower-icon" style="color:var(--die)"></i>
+            </div>
+            <div class="tower das-tower" data-article="das">
+              <span class="tower-count" id="g1-count-das" style="display:none"></span>
+              <div class="tower-label" style="color:var(--das)">DAS</div>
+              <div class="tower-sub" data-i18n="neut">neutral</div>
+              <i data-lucide="shield" class="tower-icon" style="color:var(--das)"></i>
+            </div>
+          </div>
+
+          <div class="feedback" id="g1-feedback"></div>
+
+          <div class="drag-hint" data-i18n="drag-hint">
+            <i data-lucide="hand" class="icon-xs"></i> Ziehe die Karte zum richtigen Turm
+          </div>
+          <div class="cards-hand" id="g1-hand"></div>
+
+          <div class="game-start-wrap">
+            <button id="g1-start-btn" class="btn btn-primary">
+              <i data-lucide="play" class="icon-sm"></i>
+              <span data-i18n="start">Spiel starten</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ GAME 2 — ELIXIR RUSH ════ -->
+      <div id="game2-view" class="view">
+        <div class="game-topbar">
+          <button class="btn btn-ghost btn-sm" onclick="App.navigate('games')">
+            <i data-lucide="arrow-left" class="icon-sm"></i>
+          </button>
+          <span class="game-topbar-title" data-i18n="g2-title">Elixir Rush</span>
+          <div class="game-topbar-xp" id="g2-xp-display">⚡ 0</div>
+        </div>
+
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="g2-progress" style="width:0%"></div>
+        </div>
+        <div class="progress-label" id="g2-progress-label">0 / 10</div>
+
+        <div id="g2-area">
+          <div class="timer-ring-wrap">
+            <svg width="96" height="96" viewBox="0 0 96 96">
+              <circle cx="48" cy="48" r="40" fill="none" stroke="var(--surface2)" stroke-width="7" />
+              <circle id="g2-timer-circle" cx="48" cy="48" r="40" fill="none" stroke="var(--success)" stroke-width="7"
+                stroke-linecap="round"
+                style="transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset 0.95s linear,stroke 0.5s" />
+            </svg>
+            <div class="timer-text" id="g2-timer-text">8</div>
+          </div>
+
+          <div class="g2-word-display">
+            <div class="g2-german" id="g2-german">–</div>
+            <div class="g2-hint" id="g2-hint" data-i18n="g2-press-start">Drücke Start</div>
+          </div>
+
+          <div class="g2-choices">
+            <button class="g2-choice der-btn" data-article="der">der</button>
+            <button class="g2-choice die-btn" data-article="die">die</button>
+            <button class="g2-choice das-btn" data-article="das">das</button>
+          </div>
+
+          <div class="feedback" id="g2-feedback"></div>
+
+          <div class="game-start-wrap">
+            <button id="g2-start-btn" class="btn btn-primary">
+              <i data-lucide="play" class="icon-sm"></i>
+              <span data-i18n="start">Spiel starten</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ GAME 3 — FOCUS MODE ════ -->
+      <div id="game3-view" class="view">
+        <div class="game-topbar">
+          <button class="btn btn-ghost btn-sm" onclick="App.navigate('games')">
+            <i data-lucide="arrow-left" class="icon-sm"></i>
+          </button>
+          <span class="game-topbar-title" data-i18n="g3-title">Focus Mode</span>
+          <div class="game-topbar-xp" id="g3-xp-display">⚡ 0</div>
+        </div>
+
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="g3-progress" style="width:0%"></div>
+        </div>
+        <div class="progress-label" id="g3-progress-label">0 / 10</div>
+
+        <div id="g3-area">
+          <div class="g3-word-header">
+            <span class="label-dim" data-i18n="word">Wort</span>
+            <div class="g3-word-big" id="g3-word-display">–</div>
+          </div>
+
+          <div class="g3-sentence-card">
+            <div class="g3-sentence" id="g3-sentence" data-i18n="g3-press-start">Drücke Start</div>
+            <div class="g3-trans" id="g3-trans"></div>
+            <button class="icon-btn tts-mini" id="g3-tts-btn" style="display:none">
+              <i data-lucide="volume-2" class="icon-sm"></i>
+            </button>
+          </div>
+
+          <div class="label-dim" style="text-align:center;margin-bottom:12px" data-i18n="choose-article">
+            Wähle den richtigen Artikel:
+          </div>
+          <div class="g3-cards-play">
+            <button class="g3-play-card der-card" data-article="der">der</button>
+            <button class="g3-play-card die-card" data-article="die">die</button>
+            <button class="g3-play-card das-card" data-article="das">das</button>
+          </div>
+
+          <div class="feedback" id="g3-feedback"></div>
+
+          <div class="game-start-wrap">
+            <button id="g3-start-btn" class="btn btn-primary">
+              <i data-lucide="play" class="icon-sm"></i>
+              <span data-i18n="start">Spiel starten</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ STATS ════ -->
+      <div id="stats-view" class="view">
+        <div class="section-header">
+          <h2 class="section-title" data-i18n="statistics">Statistiken</h2>
+          <div class="level-badge" id="stat-level-badge">
+            <i data-lucide="award" class="icon-xs"></i> Level
+          </div>
+        </div>
+
+        <div class="xp-bar-wrap">
+          <div class="xp-bar-labels">
+            <span><i data-lucide="zap" class="icon-xs"></i> <span id="stat-xp">0</span> XP</span>
+            <span class="text-dim" data-i18n="next-level">Nächstes Level</span>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="stat-xp-bar" style="width:0%"></div>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <i data-lucide="zap" class="stat-icon" style="color:#FF9500"></i>
+            <div class="stat-value" id="stat-xp2">0</div>
+            <div class="stat-label" data-i18n="total-xp">Gesamt XP</div>
+          </div>
+          <div class="stat-card">
+            <i data-lucide="flame" class="stat-icon" style="color:#FF3B30"></i>
+            <div class="stat-value" id="stat-streak">0</div>
+            <div class="stat-label" data-i18n="streak">Streak</div>
+          </div>
+          <div class="stat-card">
+            <i data-lucide="target" class="stat-icon" style="color:#34C759"></i>
+            <div class="stat-value" id="stat-accuracy">0%</div>
+            <div class="stat-label" data-i18n="accuracy">Genauigkeit</div>
+          </div>
+          <div class="stat-card">
+            <i data-lucide="book-open" class="stat-icon" style="color:#007AFF"></i>
+            <div class="stat-value" id="stat-words">0</div>
+            <div class="stat-label" data-i18n="words-count">Wörter</div>
+          </div>
+        </div>
+
+        <!-- XP Progress Chart -->
+        <div class="stat-chart-card" style="margin-top:16px">
+          <div class="stat-chart-title">
+            <i data-lucide="trending-up" class="icon-xs" style="color:var(--brand)"></i>
+            <span id="stat-xp-chart-label">XP Verlauf</span>
+          </div>
+          <div class="stat-chart-wrap">
+            <canvas id="chart-xp" height="120"></canvas>
+            <div class="chart-empty" id="chart-xp-empty">Noch keine Daten — spiele ein Spiel!</div>
+          </div>
+        </div>
+
+        <!-- Accuracy Donut + Article Distribution side by side -->
+        <div class="stat-two-col" style="margin-top:12px">
+          <div class="stat-chart-card">
+            <div class="stat-chart-title">
+              <i data-lucide="pie-chart" class="icon-xs" style="color:#34C759"></i>
+              <span id="stat-acc-label">Genauigkeit</span>
+            </div>
+            <div class="donut-wrap">
+              <canvas id="chart-donut" width="120" height="120"></canvas>
+              <div class="donut-center" id="donut-center-label">0%</div>
+            </div>
+          </div>
+
+          <div class="stat-chart-card">
+            <div class="stat-chart-title">
+              <i data-lucide="bar-chart-2" class="icon-xs" style="color:var(--brand)"></i>
+              <span id="stat-dist-label">Artikel</span>
+            </div>
+            <div class="dist-row">
+              <span class="dist-label" style="color:var(--der)">der</span>
+              <div class="dist-bar-wrap">
+                <div class="dist-bar" id="dist-der" style="background:var(--der);width:0%"></div>
+              </div>
+              <span class="dist-count" id="dist-der-cnt">0</span>
+            </div>
+            <div class="dist-row">
+              <span class="dist-label" style="color:var(--die)">die</span>
+              <div class="dist-bar-wrap">
+                <div class="dist-bar" id="dist-die" style="background:var(--die);width:0%"></div>
+              </div>
+              <span class="dist-count" id="dist-die-cnt">0</span>
+            </div>
+            <div class="dist-row">
+              <span class="dist-label" style="color:var(--das)">das</span>
+              <div class="dist-bar-wrap">
+                <div class="dist-bar" id="dist-das" style="background:var(--das);width:0%"></div>
+              </div>
+              <span class="dist-count" id="dist-das-cnt">0</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align:center;margin-top:20px">
+          <button class="btn btn-ghost"
+            onclick="if(confirm('Wirklich zurücksetzen?')){localStorage.clear();location.reload()}">
+            <i data-lucide="trash-2" class="icon-sm"></i>
+            <span data-i18n="reset">Zurücksetzen</span>
+          </button>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ══ Bottom Tab Bar ══ -->
+    <nav id="tab-bar">
+      <button class="tab-btn active" data-view="home">
+        <i data-lucide="book-open" class="tab-icon"></i>
+        <span data-i18n="vocab">Vokabeln</span>
+      </button>
+      <button class="tab-btn" data-view="translate">
+        <i data-lucide="languages" class="tab-icon"></i>
+        <span data-i18n="translate-short">Übersetzer</span>
+      </button>
+      <button class="tab-btn" data-view="games">
+        <i data-lucide="gamepad-2" class="tab-icon"></i>
+        <span data-i18n="games">Spiele</span>
+      </button>
+      <button class="tab-btn" data-view="stats">
+        <i data-lucide="bar-chart-2" class="tab-icon"></i>
+        <span data-i18n="statistics">Statistik</span>
+      </button>
+    </nav>
+
+  </div><!-- #app -->
+
+  <!-- ══ Word Detail Modal ══ -->
+  <div id="word-modal" class="modal-overlay">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div id="modal-scene-wrap"></div>
+      <div class="modal-inner">
+        <div class="modal-header">
+          <span class="article-pill" id="modal-article-pill">der</span>
+          <span class="modal-cat-chip" id="modal-cat-chip"></span>
+        </div>
+        <div class="modal-word" id="modal-word">Apfel</div>
+        <div class="modal-trans" id="modal-trans">яблоко</div>
+        <div class="modal-transcription" id="modal-transcription"></div>
+
+        <!-- Examples with individual TTS -->
+        <div class="modal-examples" id="modal-examples-list">
+          <!-- filled by JS -->
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-primary btn-tts" id="btn-tts">
+            <i data-lucide="volume-2" class="icon-sm"></i>
+            <span data-i18n="listen-word">Wort hören</span>
+          </button>
+          <button class="btn btn-ghost" id="btn-close-modal">
+            <i data-lucide="x" class="icon-sm"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ Scripts ══ -->
+  <script src="js/words-data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/word-icons.js"></script>
+  <script src="js/word-scenes.js"></script>
+  <script src="js/dictionary.js"></script>
+  <script src="js/translator.js"></script>
+  <script src="js/falcon.js"></script>
+  <script src="js/game1.js"></script>
+  <script src="js/game2.js"></script>
+  <script src="js/game3.js"></script>
+  <script src="js/stats.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+
+</html>

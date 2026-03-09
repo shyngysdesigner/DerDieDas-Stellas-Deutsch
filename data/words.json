@@ -1,0 +1,202 @@
+[
+  {
+    "id": 1,
+    "word": "Apfel",
+    "article": "der",
+    "translation": "яблоко",
+    "transcription": "[Апфель]",
+    "example": "Der Apfel ist rot.",
+    "exampleTranslation": "Яблоко красное.",
+    "unlocked": true
+  },
+  {
+    "id": 2,
+    "word": "Buch",
+    "article": "das",
+    "translation": "книга",
+    "transcription": "[Бух]",
+    "example": "Das Buch ist interessant.",
+    "exampleTranslation": "Книга интересная.",
+    "unlocked": true
+  },
+  {
+    "id": 3,
+    "word": "Katze",
+    "article": "die",
+    "translation": "кошка",
+    "transcription": "[Кацэ]",
+    "example": "Die Katze schläft.",
+    "exampleTranslation": "Кошка спит.",
+    "unlocked": true
+  },
+  {
+    "id": 4,
+    "word": "Hund",
+    "article": "der",
+    "translation": "собака",
+    "transcription": "[Хунд]",
+    "example": "Der Hund ist groß.",
+    "exampleTranslation": "Собака большая.",
+    "unlocked": true
+  },
+  {
+    "id": 5,
+    "word": "Haus",
+    "article": "das",
+    "translation": "дом",
+    "transcription": "[Хаус]",
+    "example": "Das Haus ist schön.",
+    "exampleTranslation": "Дом красивый.",
+    "unlocked": true
+  },
+  {
+    "id": 6,
+    "word": "Frau",
+    "article": "die",
+    "translation": "женщина / жена",
+    "transcription": "[Фрау]",
+    "example": "Die Frau ist nett.",
+    "exampleTranslation": "Женщина добрая.",
+    "unlocked": true
+  },
+  {
+    "id": 7,
+    "word": "Mann",
+    "article": "der",
+    "translation": "мужчина / муж",
+    "transcription": "[Манн]",
+    "example": "Der Mann arbeitet.",
+    "exampleTranslation": "Мужчина работает.",
+    "unlocked": true
+  },
+  {
+    "id": 8,
+    "word": "Kind",
+    "article": "das",
+    "translation": "ребёнок",
+    "transcription": "[Кинд]",
+    "example": "Das Kind spielt.",
+    "exampleTranslation": "Ребёнок играет.",
+    "unlocked": true
+  },
+  {
+    "id": 9,
+    "word": "Stadt",
+    "article": "die",
+    "translation": "город",
+    "transcription": "[Штадт]",
+    "example": "Die Stadt ist groß.",
+    "exampleTranslation": "Город большой.",
+    "unlocked": true
+  },
+  {
+    "id": 10,
+    "word": "Schule",
+    "article": "die",
+    "translation": "школа",
+    "transcription": "[Шулэ]",
+    "example": "Die Schule ist neu.",
+    "exampleTranslation": "Школа новая.",
+    "unlocked": true
+  },
+  {
+    "id": 11,
+    "word": "Tisch",
+    "article": "der",
+    "translation": "стол",
+    "transcription": "[Тиш]",
+    "example": "Der Tisch ist braun.",
+    "exampleTranslation": "Стол коричневый.",
+    "unlocked": false
+  },
+  {
+    "id": 12,
+    "word": "Wasser",
+    "article": "das",
+    "translation": "вода",
+    "transcription": "[Вассер]",
+    "example": "Das Wasser ist kalt.",
+    "exampleTranslation": "Вода холодная.",
+    "unlocked": false
+  },
+  {
+    "id": 13,
+    "word": "Straße",
+    "article": "die",
+    "translation": "улица",
+    "transcription": "[Штрасэ]",
+    "example": "Die Straße ist lang.",
+    "exampleTranslation": "Улица длинная.",
+    "unlocked": false
+  },
+  {
+    "id": 14,
+    "word": "Baum",
+    "article": "der",
+    "translation": "дерево",
+    "transcription": "[Баум]",
+    "example": "Der Baum ist alt.",
+    "exampleTranslation": "Дерево старое.",
+    "unlocked": false
+  },
+  {
+    "id": 15,
+    "word": "Auto",
+    "article": "das",
+    "translation": "машина / автомобиль",
+    "transcription": "[Ауто]",
+    "example": "Das Auto ist schnell.",
+    "exampleTranslation": "Машина быстрая.",
+    "unlocked": false
+  },
+  {
+    "id": 16,
+    "word": "Blume",
+    "article": "die",
+    "translation": "цветок",
+    "transcription": "[Блумэ]",
+    "example": "Die Blume riecht gut.",
+    "exampleTranslation": "Цветок хорошо пахнет.",
+    "unlocked": false
+  },
+  {
+    "id": 17,
+    "word": "Stuhl",
+    "article": "der",
+    "translation": "стул",
+    "transcription": "[Штуль]",
+    "example": "Der Stuhl ist bequem.",
+    "exampleTranslation": "Стул удобный.",
+    "unlocked": false
+  },
+  {
+    "id": 18,
+    "word": "Fenster",
+    "article": "das",
+    "translation": "окно",
+    "transcription": "[Фенстер]",
+    "example": "Das Fenster ist offen.",
+    "exampleTranslation": "Окно открыто.",
+    "unlocked": false
+  },
+  {
+    "id": 19,
+    "word": "Nacht",
+    "article": "die",
+    "translation": "ночь",
+    "transcription": "[Нахт]",
+    "example": "Die Nacht ist still.",
+    "exampleTranslation": "Ночь тихая.",
+    "unlocked": false
+  },
+  {
+    "id": 20,
+    "word": "Zug",
+    "article": "der",
+    "translation": "поезд",
+    "transcription": "[Цуг]",
+    "example": "Der Zug kommt an.",
+    "exampleTranslation": "Поезд прибывает.",
+    "unlocked": false
+  }
+]

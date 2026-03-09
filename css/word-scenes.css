@@ -1,0 +1,1067 @@
+/* ══════════════════════════════════════════════════════════
+   word-scenes.css  —  Animated visual scenes for word modal
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Stage container ── */
+.ws-stage {
+    position: relative;
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.5s ease;
+    flex-shrink: 0;
+}
+
+/* ── Main hero emoji ── */
+.ws-main {
+    font-size: 72px;
+    line-height: 1;
+    position: relative;
+    z-index: 2;
+    filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.15));
+    animation: wsFloatMain 3.5s ease-in-out infinite;
+}
+
+/* ── Pop on phrase click ── */
+.ws-main-pop {
+    animation: wsPop 0.55s cubic-bezier(.34, 1.56, .64, 1) forwards !important;
+}
+
+@keyframes wsPop {
+    0% {
+        transform: scale(1);
+    }
+
+    30% {
+        transform: scale(1.38) rotate(-8deg);
+    }
+
+    60% {
+        transform: scale(0.9) rotate(4deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+/* ── Ripple burst ── */
+.ws-ripple {
+    position: absolute;
+    z-index: 3;
+    pointer-events: none;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: rgba(255, 255, 255, 0.6);
+    opacity: 0;
+}
+
+.ws-ripple-active {
+    animation: wsRipple 0.65s ease-out forwards;
+}
+
+@keyframes wsRipple {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0.9;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(6);
+        opacity: 0;
+    }
+}
+
+/* ── Phrase active highlight ── */
+.modal-example-item {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.modal-example-item.phrase-active {
+    background: var(--highlight);
+    border: 1.5px solid rgba(88, 86, 214, .3);
+    transform: scale(1.01);
+}
+
+/* ═══════ PARTICLE BASE — every particle animates continuously ═══════ */
+.ws-particle {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+/* ══ ANIMATION DEFINITIONS ══════════════════════════════════════════ */
+
+/* float */
+@keyframes wsFloat {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg)
+    }
+
+    50% {
+        transform: translateY(-14px) rotate(5deg)
+    }
+}
+
+@keyframes wsFloatMain {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1)
+    }
+
+    50% {
+        transform: translateY(-10px) scale(1.06)
+    }
+}
+
+.ws-anim-float {
+    animation-name: wsFloat;
+}
+
+.ws-anim-float-main {
+    animation: wsFloatMain 3.5s ease-in-out infinite;
+}
+
+/* bounce */
+@keyframes wsBounce {
+
+    0%,
+    100% {
+        transform: translateY(0)
+    }
+
+    40% {
+        transform: translateY(-16px) scale(1.1)
+    }
+
+    60% {
+        transform: translateY(-8px)
+    }
+}
+
+@keyframes wsBounceM {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1)
+    }
+
+    40% {
+        transform: translateY(-18px) scale(1.12)
+    }
+
+    60% {
+        transform: translateY(-8px) scale(.96)
+    }
+}
+
+.ws-anim-bounce {
+    animation-name: wsBounce;
+}
+
+.ws-anim-bounce-main {
+    animation: wsBounceM 2.4s cubic-bezier(.34, 1.56, .64, 1) infinite;
+}
+
+/* spin */
+@keyframes wsSpin {
+    0% {
+        transform: rotate(0deg)
+    }
+
+    100% {
+        transform: rotate(360deg)
+    }
+}
+
+.ws-anim-spin {
+    animation-name: wsSpin;
+}
+
+.ws-anim-spin-main {
+    animation: wsSpin 5s linear infinite;
+}
+
+/* sway */
+@keyframes wsSway {
+
+    0%,
+    100% {
+        transform: rotate(-12deg)
+    }
+
+    50% {
+        transform: rotate(12deg) translateY(-6px)
+    }
+}
+
+@keyframes wsSwayM {
+
+    0%,
+    100% {
+        transform: rotate(-6deg) scale(1)
+    }
+
+    50% {
+        transform: rotate(6deg) scale(1.05)
+    }
+}
+
+.ws-anim-sway {
+    animation-name: wsSway;
+}
+
+.ws-anim-sway-main {
+    animation: wsSwayM 2.8s ease-in-out infinite;
+}
+
+/* pulse */
+@keyframes wsPulse {
+
+    0%,
+    100% {
+        transform: scale(1)
+    }
+
+    50% {
+        transform: scale(1.25)
+    }
+}
+
+@keyframes wsPulseM {
+
+    0%,
+    100% {
+        transform: scale(1)
+    }
+
+    50% {
+        transform: scale(1.14)
+    }
+}
+
+.ws-anim-pulse {
+    animation-name: wsPulse;
+}
+
+.ws-anim-pulse-main {
+    animation: wsPulseM 1.8s ease-in-out infinite;
+}
+
+/* steam */
+@keyframes wsSteam {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1
+    }
+
+    100% {
+        transform: translateY(-40px) scale(.5);
+        opacity: 0
+    }
+}
+
+.ws-anim-steam {
+    animation-name: wsSteam;
+}
+
+.ws-anim-steam-main {
+    animation: wsFloatMain 3s ease-in-out infinite;
+}
+
+/* glow */
+@keyframes wsGlow {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: .7
+    }
+
+    50% {
+        transform: scale(1.3);
+        opacity: 1
+    }
+}
+
+@keyframes wsGlowM {
+
+    0%,
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 8px rgba(255, 200, 0, .4))
+    }
+
+    50% {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 28px rgba(255, 200, 0, .9))
+    }
+}
+
+.ws-anim-glow {
+    animation-name: wsGlow;
+}
+
+.ws-anim-glow-main {
+    animation: wsGlowM 2.5s ease-in-out infinite;
+}
+
+/* drip */
+@keyframes wsDrip {
+    0% {
+        transform: translateY(-20px) scaleY(.8);
+        opacity: 0
+    }
+
+    30% {
+        opacity: 1
+    }
+
+    100% {
+        transform: translateY(30px) scaleY(1.2);
+        opacity: 0
+    }
+}
+
+.ws-anim-drip {
+    animation-name: wsDrip;
+}
+
+.ws-anim-drip-main {
+    animation: wsFloatMain 2s ease-in-out infinite;
+}
+
+/* pour */
+@keyframes wsPouring {
+
+    0%,
+    100% {
+        transform: rotate(0deg) scale(1)
+    }
+
+    30% {
+        transform: rotate(-25deg) scale(1.05)
+    }
+
+    60% {
+        transform: rotate(-20deg) scale(1.03)
+    }
+}
+
+.ws-anim-pour {
+    animation-name: wsFloat;
+}
+
+.ws-anim-pour-main {
+    animation: wsPouring 2.5s ease-in-out infinite;
+}
+
+/* shake */
+@keyframes wsShake {
+
+    0%,
+    100% {
+        transform: translateX(0)
+    }
+
+    20% {
+        transform: translateX(-6px)
+    }
+
+    40% {
+        transform: translateX(6px)
+    }
+
+    60% {
+        transform: translateX(-4px)
+    }
+
+    80% {
+        transform: translateX(4px)
+    }
+}
+
+@keyframes wsShakeM {
+
+    0%,
+    80%,
+    100% {
+        transform: translateX(0) scale(1)
+    }
+
+    10%,
+    50% {
+        transform: translateX(-8px) scale(1.02)
+    }
+
+    30%,
+    70% {
+        transform: translateX(8px) scale(1.02)
+    }
+}
+
+.ws-anim-shake {
+    animation-name: wsShake;
+}
+
+.ws-anim-shake-main {
+    animation: wsShakeM 2s ease-in-out infinite;
+}
+
+/* swim */
+@keyframes wsSwim {
+
+    0%,
+    100% {
+        transform: translateX(0) translateY(0)
+    }
+
+    25% {
+        transform: translateX(10px) translateY(-8px)
+    }
+
+    75% {
+        transform: translateX(-10px) translateY(8px)
+    }
+}
+
+@keyframes wsSwimM {
+
+    0%,
+    100% {
+        transform: translateX(0) scaleX(1)
+    }
+
+    25% {
+        transform: translateX(12px) scaleX(1.05)
+    }
+
+    75% {
+        transform: translateX(-12px) scaleX(1.05)
+    }
+}
+
+.ws-anim-swim {
+    animation-name: wsSwim;
+}
+
+.ws-anim-swim-main {
+    animation: wsSwimM 3s ease-in-out infinite;
+}
+
+/* flash */
+@keyframes wsFlash {
+
+    0%,
+    90%,
+    100% {
+        opacity: 1;
+        transform: scale(1)
+    }
+
+    50% {
+        opacity: .2;
+        transform: scale(.8)
+    }
+}
+
+@keyframes wsFlashM {
+
+    0%,
+    80%,
+    100% {
+        filter: drop-shadow(0 8px 24px rgba(0, 0, 0, .15))
+    }
+
+    40% {
+        filter: drop-shadow(0 0 40px rgba(255, 220, 0, .9)) brightness(1.3)
+    }
+}
+
+.ws-anim-flash {
+    animation-name: wsFlash;
+}
+
+.ws-anim-flash-main {
+    animation: wsFlashM 1.5s ease-in-out infinite;
+}
+
+/* wave */
+@keyframes wsWave {
+
+    0%,
+    100% {
+        transform: translateX(0) rotate(-10deg)
+    }
+
+    50% {
+        transform: translateX(10px) rotate(10deg)
+    }
+}
+
+@keyframes wsWaveM {
+
+    0%,
+    20% {
+        transform: rotate(0deg)
+    }
+
+    30% {
+        transform: rotate(-25deg)
+    }
+
+    50% {
+        transform: rotate(25deg)
+    }
+
+    70% {
+        transform: rotate(-15deg)
+    }
+
+    100% {
+        transform: rotate(0deg)
+    }
+}
+
+.ws-anim-wave {
+    animation-name: wsWave;
+}
+
+.ws-anim-wave-main {
+    animation: wsWaveM 2.2s ease-in-out infinite;
+}
+
+/* walk */
+@keyframes wsWalk {
+
+    0%,
+    100% {
+        transform: translateX(0)
+    }
+
+    25% {
+        transform: translateX(8px) translateY(-4px)
+    }
+
+    75% {
+        transform: translateX(-8px) translateY(-4px)
+    }
+}
+
+@keyframes wsWalkM {
+
+    0%,
+    100% {
+        transform: translateX(0)
+    }
+
+    20% {
+        transform: translateX(-8px) rotate(-3deg)
+    }
+
+    60% {
+        transform: translateX(8px) rotate(3deg)
+    }
+}
+
+.ws-anim-walk {
+    animation-name: wsWalk;
+}
+
+.ws-anim-walk-main {
+    animation: wsWalkM 2s ease-in-out infinite;
+}
+
+/* tick */
+@keyframes wsTickM {
+
+    0%,
+    100% {
+        transform: rotate(0deg) scale(1)
+    }
+
+    50% {
+        transform: rotate(6deg) scale(1.03)
+    }
+}
+
+.ws-anim-tick {
+    animation-name: wsFloat;
+}
+
+.ws-anim-tick-main {
+    animation: wsTickM 1s steps(2) infinite;
+}
+
+/* bloom */
+@keyframes wsBloom {
+
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg)
+    }
+
+    50% {
+        transform: scale(1.3) rotate(15deg)
+    }
+}
+
+@keyframes wsBloomM {
+
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg);
+        filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .1))
+    }
+
+    50% {
+        transform: scale(1.12) rotate(-5deg);
+        filter: drop-shadow(0 0 30px rgba(255, 100, 150, .5))
+    }
+}
+
+.ws-anim-bloom {
+    animation-name: wsBloom;
+}
+
+.ws-anim-bloom-main {
+    animation: wsBloomM 3s ease-in-out infinite;
+}
+
+/* sparkle */
+@keyframes wsSparkle {
+
+    0%,
+    100% {
+        transform: scale(0);
+        opacity: 0
+    }
+
+    50% {
+        transform: scale(1.4);
+        opacity: 1
+    }
+}
+
+@keyframes wsSparkleM {
+
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg)
+    }
+
+    50% {
+        transform: scale(1.15) rotate(20deg);
+        filter: drop-shadow(0 0 24px rgba(255, 200, 50, .9))
+    }
+}
+
+.ws-anim-sparkle {
+    animation-name: wsSparkle;
+}
+
+.ws-anim-sparkle-main {
+    animation: wsSparkleM 2s ease-in-out infinite;
+}
+
+/* pop */
+@keyframes wsPop2 {
+
+    0%,
+    100% {
+        transform: scale(1)
+    }
+
+    50% {
+        transform: scale(1.2) translateY(-4px)
+    }
+}
+
+@keyframes wsPopM {
+
+    0%,
+    70%,
+    100% {
+        transform: scale(1)
+    }
+
+    20% {
+        transform: scale(1.18) translateY(-6px)
+    }
+
+    40% {
+        transform: scale(.94)
+    }
+}
+
+.ws-anim-pop {
+    animation-name: wsPop2;
+}
+
+.ws-anim-pop-main {
+    animation: wsPopM 2s cubic-bezier(.34, 1.56, .64, 1) infinite;
+}
+
+/* droop */
+@keyframes wsDroopM {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg)
+    }
+
+    40% {
+        transform: translateY(6px) rotate(-5deg)
+    }
+}
+
+.ws-anim-droop {
+    animation-name: wsFloat;
+}
+
+.ws-anim-droop-main {
+    animation: wsDroopM 4s ease-in-out infinite;
+}
+
+/* grow */
+@keyframes wsGrow {
+
+    0%,
+    100% {
+        transform: scale(.8) translateY(0)
+    }
+
+    50% {
+        transform: scale(1.2) translateY(-8px)
+    }
+}
+
+@keyframes wsGrowM {
+
+    0%,
+    100% {
+        transform: scale(1) translateY(0)
+    }
+
+    50% {
+        transform: scale(1.12) translateY(-8px)
+    }
+}
+
+.ws-anim-grow {
+    animation-name: wsGrow;
+}
+
+.ws-anim-grow-main {
+    animation: wsGrowM 3s ease-in-out infinite;
+}
+
+/* flex */
+@keyframes wsFlex {
+
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg)
+    }
+
+    30% {
+        transform: scale(1.3) rotate(-10deg)
+    }
+
+    70% {
+        transform: scale(1.1) rotate(5deg)
+    }
+}
+
+@keyframes wsFlexM {
+
+    0%,
+    100% {
+        transform: scale(1)
+    }
+
+    50% {
+        transform: scale(1.2) rotate(-5deg)
+    }
+}
+
+.ws-anim-flex {
+    animation-name: wsFlex;
+}
+
+.ws-anim-flex-main {
+    animation: wsFlexM 2s ease-in-out infinite;
+}
+
+/* arc */
+@keyframes wsArc {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(.9);
+        opacity: .7
+    }
+
+    50% {
+        transform: translateY(-16px) scale(1.1);
+        opacity: 1
+    }
+}
+
+@keyframes wsArcM {
+
+    0%,
+    100% {
+        transform: scale(1) translateY(0)
+    }
+
+    50% {
+        transform: scale(1.1) translateY(-10px);
+        filter: drop-shadow(0 0 20px rgba(120, 80, 255, .5))
+    }
+}
+
+.ws-anim-arc {
+    animation-name: wsArc;
+}
+
+.ws-anim-arc-main {
+    animation: wsArcM 3.5s ease-in-out infinite;
+}
+
+/* flow/gentle/scroll → reuse float */
+.ws-anim-flow-main,
+.ws-anim-gentle-main,
+.ws-anim-scroll-main,
+.ws-anim-drive-main,
+.ws-anim-chug-main,
+.ws-anim-fly-main,
+.ws-anim-roll-main,
+.ws-anim-swipe-main,
+.ws-anim-hammer-main,
+.ws-anim-grab-main,
+.ws-anim-write-main,
+.ws-anim-blink-main,
+.ws-anim-ring-main,
+.ws-anim-scan-main,
+.ws-anim-tick-main,
+.ws-anim-flip-main,
+.ws-anim-fall-main,
+.ws-anim-open-main,
+.ws-anim-rise-main,
+.ws-anim-slide-main,
+.ws-anim-clink-main,
+.ws-anim-foam-main,
+.ws-anim-sizzle-main,
+.ws-anim-scrub-main,
+.ws-anim-swing-main,
+.ws-anim-walk-main,
+.ws-anim-bow-main,
+.ws-anim-charge-main,
+.ws-anim-back-main {
+    animation: wsFloatMain 3.5s ease-in-out infinite;
+}
+
+/* specific overrides for variety */
+.ws-anim-ring-main {
+    animation: wsWaveM 1.8s ease-in-out infinite;
+}
+
+.ws-anim-sizzle-main {
+    animation: wsShakeM 1.5s ease-in-out infinite;
+}
+
+.ws-anim-chug-main {
+    animation: wsWalkM 2s ease-in-out infinite;
+}
+
+.ws-anim-fly-main {
+    animation: wsSwimM 3s ease-in-out infinite;
+}
+
+.ws-anim-scan-main {
+    animation: wsSwimM 2s ease-in-out infinite;
+}
+
+.ws-anim-bounce-main,
+.ws-anim-pop-main {
+    animation: wsBounceM 2.4s cubic-bezier(.34, 1.56, .64, 1) infinite;
+}
+
+.ws-anim-slide-main,
+.ws-anim-scroll-main,
+.ws-anim-swipe-main {
+    animation: wsWalkM 2.5s ease-in-out infinite;
+}
+
+.ws-anim-fall-main {
+    animation: wsBloomM 3s ease-in-out infinite;
+}
+
+.ws-anim-charge-main {
+    animation: wsPulseM 1.5s ease-in-out infinite;
+}
+
+.ws-anim-clink-main {
+    animation: wsClinkM 2s cubic-bezier(.34, 1.56, .64, 1) infinite;
+}
+
+@keyframes wsClinkM {
+
+    0%,
+    80%,
+    100% {
+        transform: rotate(0deg) scale(1)
+    }
+
+    20% {
+        transform: rotate(-20deg) scale(1.15)
+    }
+
+    50% {
+        transform: rotate(20deg) scale(1.15)
+    }
+}
+
+.ws-anim-glow-main,
+.ws-anim-sparkle-main {
+    animation: wsGlowM 2.5s ease-in-out infinite;
+}
+
+.ws-anim-drip-main {
+    animation: wsBounceM 2.2s ease-in-out infinite;
+}
+
+.ws-anim-steam-main {
+    animation: wsDroopM 3s ease-in-out infinite;
+}
+
+/* particles that don't have a specific variant just use float */
+.ws-anim-flow,
+.ws-anim-gentle,
+.ws-anim-scroll,
+.ws-anim-drive,
+.ws-anim-chug,
+.ws-anim-fly,
+.ws-anim-roll,
+.ws-anim-swipe,
+.ws-anim-hammer,
+.ws-anim-grab,
+.ws-anim-write,
+.ws-anim-blink,
+.ws-anim-ring,
+.ws-anim-scan,
+.ws-anim-flip,
+.ws-anim-fall,
+.ws-anim-open,
+.ws-anim-rise,
+.ws-anim-slide,
+.ws-anim-clink,
+.ws-anim-foam,
+.ws-anim-scrub,
+.ws-anim-swing,
+.ws-anim-bow,
+.ws-anim-charge {
+    animation-name: wsFloat;
+}
+
+/* ══════════════════════════════════════════════════════════
+   STATISTICS CHARTS
+   ══════════════════════════════════════════════════════════ */
+
+.stat-chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px 16px;
+    box-shadow: var(--shadow-sm);
+}
+
+.stat-chart-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text2);
+    margin-bottom: 12px;
+}
+
+.stat-chart-wrap {
+    position: relative;
+    width: 100%;
+    min-height: 120px;
+}
+
+.stat-chart-wrap canvas {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+}
+
+.chart-empty {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: var(--text3);
+    background: var(--surface2);
+    border-radius: 8px;
+    text-align: center;
+    padding: 16px;
+}
+
+/* Two-column layout for donut + article bars */
+.stat-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.stat-two-col .stat-chart-card {
+    min-width: 0;
+}
+
+/* Donut chart wrapper */
+.donut-wrap {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+}
+
+.donut-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.5px;
+}
+
+/* Dist rows inside two-col card */
+.stat-two-col .dist-row {
+    margin-bottom: 8px;
+}
+
+.stat-two-col .dist-row:last-child {
+    margin-bottom: 0;
+}
