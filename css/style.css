@@ -7,14 +7,14 @@
 :root {
   /* Articles */
   --der: #2563EB;
-  --die: #DB2777;
-  --das: #059669;
+  --die: #C2185B;
+  --das: #047857;
   --der-bg: rgba(37, 99, 235, .08);
-  --die-bg: rgba(219, 39, 119, .08);
-  --das-bg: rgba(5, 150, 105, .08);
+  --die-bg: rgba(194, 24, 91, .08);
+  --das-bg: rgba(4, 120, 87, .08);
   --der-border: rgba(37, 99, 235, .25);
-  --die-border: rgba(219, 39, 119, .25);
-  --das-border: rgba(5, 150, 105, .25);
+  --die-border: rgba(194, 24, 91, .25);
+  --das-border: rgba(4, 120, 87, .25);
 
   /* Apple Light palette */
   --bg: #F2F2F7;
@@ -26,16 +26,16 @@
   --border2: rgba(0, 0, 0, .06);
   --text: #1C1C1E;
   --text2: #3C3C43;
-  --text3: rgba(60, 60, 67, .45);
+  --text3: rgba(60, 60, 67, .65);
   --highlight: rgba(99, 102, 241, .08);
 
   /* Brand */
   --brand: #5856D6;
   --brand-hover: #4644C0;
   --brand2: #FF375F;
-  --success: #34C759;
-  --danger: #FF3B30;
-  --warning: #FF9500;
+  --success: #28A745;
+  --danger: #DC3545;
+  --warning: #D97300;
   --info: #007AFF;
 
   /* Radii — Apple uses more consistent large radii */

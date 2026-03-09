@@ -3,8 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>DerDieDas — Deutsch lernen</title>
   <meta name="description"
     content="Gamified German article learning app — master der, die, das with 3 mini-games and 200+ words" />
@@ -47,11 +46,11 @@
           <i data-lucide="zap" class="icon-xs"></i>
           <span id="nav-score-val">0</span> XP
         </div>
-        <button class="icon-btn" id="btn-lang" title="Language">
+        <button class="icon-btn" id="btn-lang" title="Language" aria-label="Toggle Language">
           <i data-lucide="languages" class="icon-sm"></i>
           <span id="lang-label" class="lang-chip">RU</span>
         </button>
-        <button class="icon-btn" id="btn-theme" title="Theme">
+        <button class="icon-btn" id="btn-theme" title="Theme" aria-label="Toggle Theme">
           <i data-lucide="sun" class="icon-sm" id="theme-icon"></i>
         </button>
       </div>
@@ -65,7 +64,7 @@
         <div class="search-bar-wrap">
           <i data-lucide="search" class="icon-sm search-icon"></i>
           <input type="text" id="dict-search" class="search-input" placeholder="Suchen… / Search…" />
-          <button class="icon-btn" id="dict-search-clear" style="display:none">
+          <button class="icon-btn" id="dict-search-clear" style="display:none" aria-label="Clear search">
             <i data-lucide="x" class="icon-sm"></i>
           </button>
         </div>
@@ -112,7 +111,7 @@
                 <div class="trans-result-lang"><i data-lucide="flag" class="icon-xs"></i> 🇩🇪 Deutsch</div>
                 <div class="trans-result-text" id="trans-de"></div>
               </div>
-              <button class="icon-btn tts-mini" id="trans-tts-de">
+              <button class="icon-btn tts-mini" id="trans-tts-de" aria-label="Listen to translation">
                 <i data-lucide="volume-2" class="icon-sm"></i>
               </button>
             </div>
@@ -243,7 +242,7 @@
       <!-- ════ GAME 1 — TOWER DEFENSE ════ -->
       <div id="game1-view" class="view">
         <div class="game-topbar">
-          <button class="btn btn-ghost btn-sm" onclick="App.navigate('games')">
+          <button class="btn btn-ghost btn-sm" onclick="App.navigate('games')" aria-label="Back to games">
             <i data-lucide="arrow-left" class="icon-sm"></i>
           </button>
           <span class="game-topbar-title" data-i18n="g1-title">Tower Defense</span>
@@ -296,7 +295,7 @@
       <!-- ════ GAME 2 — ELIXIR RUSH ════ -->
       <div id="game2-view" class="view">
         <div class="game-topbar">
-          <button class="btn btn-ghost btn-sm" onclick="App.navigate('games')">
+          <button class="btn btn-ghost btn-sm" onclick="App.navigate('games')" aria-label="Back to games">
             <i data-lucide="arrow-left" class="icon-sm"></i>
           </button>
           <span class="game-topbar-title" data-i18n="g2-title">Elixir Rush</span>
@@ -344,7 +343,7 @@
       <!-- ════ GAME 3 — FOCUS MODE ════ -->
       <div id="game3-view" class="view">
         <div class="game-topbar">
-          <button class="btn btn-ghost btn-sm" onclick="App.navigate('games')">
+          <button class="btn btn-ghost btn-sm" onclick="App.navigate('games')" aria-label="Back to games">
             <i data-lucide="arrow-left" class="icon-sm"></i>
           </button>
           <span class="game-topbar-title" data-i18n="g3-title">Focus Mode</span>
@@ -365,7 +364,7 @@
           <div class="g3-sentence-card">
             <div class="g3-sentence" id="g3-sentence" data-i18n="g3-press-start">Drücke Start</div>
             <div class="g3-trans" id="g3-trans"></div>
-            <button class="icon-btn tts-mini" id="g3-tts-btn" style="display:none">
+            <button class="icon-btn tts-mini" id="g3-tts-btn" style="display:none" aria-label="Listen to sentence">
               <i data-lucide="volume-2" class="icon-sm"></i>
             </button>
           </div>
@@ -546,7 +545,7 @@
             <i data-lucide="volume-2" class="icon-sm"></i>
             <span data-i18n="listen-word">Wort hören</span>
           </button>
-          <button class="btn btn-ghost" id="btn-close-modal">
+          <button class="btn btn-ghost" id="btn-close-modal" aria-label="Close modal">
             <i data-lucide="x" class="icon-sm"></i>
           </button>
         </div>
