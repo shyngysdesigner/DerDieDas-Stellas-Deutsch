@@ -202,6 +202,11 @@ const Dictionary = (() => {
         const w = word.word;
         const tr = word.translation || '';
 
+        // Safe lowercasing: German nouns must stay capitalized in the middle of a sentence
+        const wLower = word.article ? w : w.toLowerCase();
+        // Russian words are usually fully lowercase in the middle of a sentence
+        const trLower = tr.toLowerCase();
+
         // ── SENTENCES category: show extended usage patterns ──
         if (cat === 'sentences') {
             const sentenceExtras = {
@@ -237,18 +242,18 @@ const Dictionary = (() => {
                 ],
                 'Gibt es \u2026?': [
                     { de: 'Gibt es einen Parkplatz?', ru: 'Есть ли парковка?' },
-                    { de: 'Gibt es etwas Billiges?', ru: 'Есть ли что-то дешевлее?' },
+                    { de: 'Gibt es etwas Billiges?', ru: 'Есть ли что-то дешевле?' },
                     { de: 'Gibt es WLAN hier?', ru: 'Есть ли здесь Wi-Fi?' },
                     { de: 'Gibt es vegetarische Gerichte?', ru: 'Есть ли вегетарианские блюда?' },
                 ],
                 'Wie viel kostet es?': [
                     { de: 'Wie viel kostet das Zimmer?', ru: 'Сколько стоит номер?' },
                     { de: 'Wie viel kostet die Fahrkarte?', ru: 'Сколько стоит билет?' },
-                    { de: 'Wie viel kostet das insgesamt?', ru: 'Сколько стоит всего?' },
+                    { de: 'Wie viel kostet das insgesamt?', ru: 'Сколько стоит всё вместе?' },
                     { de: 'Wie viel kostet der Eintritt?', ru: 'Сколько стоит вход?' },
                 ],
                 'Wie lange dauert es?': [
-                    { de: 'Wie lange dauert der Flug?', ru: 'Сколько летить самолёт?' },
+                    { de: 'Wie lange dauert der Flug?', ru: 'Сколько лететь на самолёте?' },
                     { de: 'Wie lange dauert die Wartezeit?', ru: 'Сколько ждать?' },
                     { de: 'Wie lange dauert der Kurs?', ru: 'Сколько длится курс?' },
                     { de: 'Wie lange dauert die Reparatur?', ru: 'Сколько длится ремонт?' },
@@ -266,21 +271,15 @@ const Dictionary = (() => {
             }
         }
 
-        // ── ADJECTIVE category: show comparative + in-sentence use ──
+        // ── ADJECTIVE category: avoid incorrect comparatives/endings ──
         else if (cat === 'adjective') {
-            const ru = tr;
-            // Basic: Das ist sehr [adj]
-            if (examples.length < 2) examples.push({ de: `Das ist sehr ${w}.`, ru: `Это очень ${ru}.` });
-            // Comparative: Das ist [adj]-er als...
-            const comp = makeComparative(w);
-            if (examples.length < 3) examples.push({ de: `Das ist ${comp} als das andere.`, ru: `Это ${ru} по сравнению с другим.` });
-            // Superlative
-            if (examples.length < 4) examples.push({ de: `Das ist am ${w}sten.`, ru: `Это самое ${ru}.` });
-            // In a sentence about someone
-            if (examples.length < 5) examples.push({ de: `Er ist sehr ${w}.`, ru: `Он очень ${ru}.` });
+            if (examples.length < 2) examples.push({ de: `Das ist sehr ${wLower}.`, ru: `Это очень ${trLower}.` });
+            if (examples.length < 3) examples.push({ de: `Ist das ${wLower}?`, ru: `Это ${trLower}?` });
+            if (examples.length < 4) examples.push({ de: `Wie ${wLower} ist das?`, ru: `Насколько это ${trLower}?` });
+            if (examples.length < 5) examples.push({ de: `Das sieht ${wLower} aus.`, ru: `Это выглядит ${trLower}.` });
         }
 
-        // ── TIME category: show usage in sentences ──
+        // ── TIME category: fix syntax and capitalization ──
         else if (cat === 'time') {
             const timeExtras = {
                 'heute': [
@@ -293,11 +292,11 @@ const Dictionary = (() => {
                     { de: 'Morgen haben wir frei.', ru: 'Завтра у нас выходной.' },
                     { de: 'Bis morgen!', ru: 'До завтра!' },
                     { de: 'Morgen früh fliege ich ab.', ru: 'Завтра утром я вылетаю.' },
-                    { de: 'Was gibst du mir morgen?', ru: 'Что ты дашь мне завтра?' },
+                    { de: 'Was machen wir morgen?', ru: 'Что мы будем делать завтра?' },
                 ],
                 'gestern': [
-                    { de: 'Gestern war ich krank.', ru: 'Вчера я был(а) болен.' },
-                    { de: 'Gestern habe ich viel gelernt.', ru: 'Вчера я много учился.' },
+                    { de: 'Gestern war ich krank.', ru: 'Вчера я был(а) болен/больна.' },
+                    { de: 'Gestern haben wir gearbeitet.', ru: 'Вчера мы работали.' },
                     { de: 'Was hast du gestern gemacht?', ru: 'Что ты делал(а) вчера?' },
                     { de: 'Gestern war das Wetter schlecht.', ru: 'Вчера была плохая погода.' },
                 ],
@@ -313,20 +312,10 @@ const Dictionary = (() => {
                     { de: 'Wir sprechen später darüber.', ru: 'Поговорим об этом позже.' },
                     { de: 'Später gehen wir essen.', ru: 'Позже мы пойдём поесть.' },
                 ],
-                'früh': [
-                    { de: 'Ich stehe früh auf.', ru: 'Я встаю рано.' },
-                    { de: 'Früh morgens ist es still.', ru: 'Ранним утром тихо.' },
-                    { de: 'Komm nicht zu früh!', ru: 'Не приходи слишком рано!' },
-                ],
-                'spät': [
-                    { de: 'Es ist schon spät.', ru: 'Уже поздно.' },
-                    { de: 'Ich bin spät dran.', ru: 'Я опаздываю.' },
-                    { de: 'Warum schreibst du so spät?', ru: 'Почему ты пишешь так поздно?' },
-                ],
                 'immer': [
-                    { de: 'Er ist immer nett.', ru: 'Он всегда приязен.' },
+                    { de: 'Er ist immer nett.', ru: 'Он всегда приветлив.' },
                     { de: 'Ich trinke immer Kaffee.', ru: 'Я всегда пью кофе.' },
-                    { de: 'Das macht sie immer so.', ru: 'Она всегда так делает.' },
+                    { de: 'Das macht sie immer.', ru: 'Она всегда так делает.' },
                 ],
                 'nie': [
                     { de: 'Ich schlafe nie lang.', ru: 'Я никогда не сплю долго.' },
@@ -338,54 +327,45 @@ const Dictionary = (() => {
             if (timeExtras[key]) {
                 timeExtras[key].forEach(e => { if (examples.length < 5) examples.push(e); });
             } else {
-                // Generic pattern for any time word
-                if (examples.length < 2) examples.push({ de: `${w.charAt(0).toUpperCase() + w.slice(1)} ist es ruhig.`, ru: `${tr.charAt(0).toUpperCase() + tr.slice(1)} тихо.` });
-                if (examples.length < 3) examples.push({ de: `Ich komme ${w} zurück.`, ru: `Я вернусь ${tr}.` });
-                if (examples.length < 4) examples.push({ de: `Was machst du ${w}?`, ru: `Что ты делаешь ${tr}?` });
-                if (examples.length < 5) examples.push({ de: `${w.charAt(0).toUpperCase() + w.slice(1)} gehe ich schlafen.`, ru: `${tr.charAt(0).toUpperCase() + tr.slice(1)} я иду спать.` });
+                // Generic pattern for other time words
+                const capW = w.charAt(0).toUpperCase() + w.slice(1);
+                const capTr = tr.charAt(0).toUpperCase() + tr.slice(1);
+                if (examples.length < 2) examples.push({ de: `${capW} bin ich zu Hause.`, ru: `${capTr} я дома.` });
+                if (examples.length < 3) examples.push({ de: `Ich komme ${wLower} zurück.`, ru: `Я вернусь ${trLower}.` });
+                if (examples.length < 4) examples.push({ de: `Was machst du ${wLower}?`, ru: `Что ты делаешь ${trLower}?` });
             }
         }
 
-        // ── VERB category ──
+        // ── VERB category: ensure Russian translations are natural ──
         else if (cat === 'verb') {
-            const inf = w; // infinitive e.g. 'essen'
-            const ruInf = tr;
+            const inf = wLower; // infinitive e.g. 'essen'
+            const ruInf = trLower;
             if (examples.length < 2) examples.push({ de: `Ich möchte ${inf}.`, ru: `Я хочу ${ruInf}.` });
-            if (examples.length < 3) examples.push({ de: `Kannst du ${inf}?`, ru: `Ты умеешь ${ruInf}?` });
-            if (examples.length < 4) examples.push({ de: `Wir ${inf} zusammen.`, ru: `Мы ${ruInf} вместе.` });
-            if (examples.length < 5) examples.push({ de: `Ich muss jetzt ${inf}.`, ru: `Мне нужно сейчас ${ruInf}.` });
+            if (examples.length < 3) examples.push({ de: `Kannst du ${inf}?`, ru: `Ты умеешь / можешь ${ruInf}?` });
+            if (examples.length < 4) examples.push({ de: `Lass uns ${inf}!`, ru: `Давай ${ruInf}!` });
+            if (examples.length < 5) examples.push({ de: `Es ist Zeit zu ${inf}.`, ru: `Пора ${ruInf}.` });
         }
 
-        // ── NOUN category (has article) ──
+        // ── NOUN category: Avoid accusative/dative issues in auto-generated Russian ──
         else if (word.article) {
-            const art = word.article;
-            const acc = art === 'der' ? 'den' : art === 'das' ? 'das' : 'die';
+            const art = word.article; // der, die, das
+            // nominative templates ensure Russian noun stays in dictionary form
             if (examples.length === 0) {
-                examples.push({ de: `${art.charAt(0).toUpperCase()}${art.slice(1)} ${w}.`, ru: `${tr}.` });
+                examples.push({ de: `${art.charAt(0).toUpperCase()}${art.slice(1)} ${w}.`, ru: `${tr.charAt(0).toUpperCase()}${tr.slice(1)}.` });
             }
-            if (examples.length < 2) examples.push({ de: `Ich sehe ${acc} ${w}.`, ru: `Я вижу ${tr}.` });
-            if (examples.length < 3) examples.push({ de: `Wo ist ${art === 'der' ? 'der' : art === 'das' ? 'das' : 'die'} ${w}?`, ru: `Где ${tr}?` });
-            if (examples.length < 4) examples.push({ de: `Das ist ${art === 'der' ? 'ein' : art === 'das' ? 'ein' : 'eine'} ${w}.`, ru: `Это ${art === 'die' ? 'одна' : 'один'} ${tr}.` });
-            if (examples.length < 5) examples.push({ de: `Ich habe ${art === 'der' ? 'keinen' : art === 'das' ? 'kein' : 'keine'} ${w}.`, ru: `У меня нет ${tr}.` });
+            if (examples.length < 2) examples.push({ de: `Hier ist ${art} ${w}.`, ru: `Вот ${trLower}.` });
+            if (examples.length < 3) examples.push({ de: `Wo ist ${art} ${w}?`, ru: `Где ${trLower}?` });
+            if (examples.length < 4) examples.push({ de: `Ist das ${art === 'der' ? 'ein' : art === 'das' ? 'ein' : 'eine'} ${w}?`, ru: `Это ${trLower}?` });
+            if (examples.length < 5) examples.push({ de: `Das ist kein ${art === 'die' ? 'e' : ''} ${w}.`, ru: `Это не ${trLower}.` });
         }
 
         // ── Fallback for other no-article words ──
         else {
             if (examples.length === 0) examples.push({ de: w, ru: tr });
-            if (examples.length < 2) examples.push({ de: `Das ist ${w}.`, ru: `Это ${tr}.` });
+            if (examples.length < 2) examples.push({ de: `Das ist ${wLower}.`, ru: `Это ${trLower}.` });
         }
 
         return examples.slice(0, 5);
-    }
-
-    // Helper: simple comparative form
-    function makeComparative(adj) {
-        if (!adj) return adj;
-        // Common irregulars
-        const irreg = { 'gut': 'besser', 'viel': 'mehr', 'gern': 'lieber', 'hoch': 'höher', 'nah': 'näher' };
-        if (irreg[adj.toLowerCase()]) return irreg[adj.toLowerCase()];
-        // Standard: add -er
-        return adj + 'er';
     }
 
     // ── Modal ────────────────────────────────────────────────
