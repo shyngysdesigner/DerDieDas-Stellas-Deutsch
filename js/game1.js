@@ -43,64 +43,43 @@ const Game1 = (() => {
         <div>${word.word}</div>
         <div class="drag-card-sub">${word.translation || word.translationEn || ''}</div>
       `;
-      // Full custom pointer drag and drop
       let isDragging = false;
-      let startX = 0; let startY = 0;
-      let currentX = 0; let currentY = 0;
+      let startPointerX = 0; let startPointerY = 0;
+      let lastTranslate = '';
 
       card.addEventListener('pointerdown', e => {
-        // Prevent default only if it's not a button or similar, but for custom drag we usually prevent it
-        // However, on mobile sometimes setting pointercapture prevents scrolling. For cards, we want to grab it.
         e.preventDefault();
         isDragging = true;
         dragWord = word;
         
-        const rect = card.getBoundingClientRect();
-        startX = e.clientX - rect.left - (rect.width/2);
-        startY = e.clientY - rect.top - (rect.height/2);
+        startPointerX = e.clientX;
+        startPointerY = e.clientY;
+        lastTranslate = `translate(0px, 0px)`;
         
         card.classList.add('dragging-custom');
         card.setPointerCapture(e.pointerId);
         
-        // Initial transform
-        currentX = 0; currentY = 0;
-        card.style.transform = `translate(${currentX}px, ${currentY}px) scale(1.05) rotate(-2deg)`;
+        card.style.transform = `${lastTranslate} scale(1.05) rotate(-2deg)`;
         card.style.zIndex = '1000';
       });
 
       card.addEventListener('pointermove', e => {
         if (!isDragging) return;
         
-        // Calculate movement difference
-        currentX += e.movementX;
-        currentY += e.movementY;
-        
-        // Fallback calculation for some mobile devices where movementX/Y might act weird
-        if(e.movementX === undefined) {
-           // Basic delta if movement isn't supported (rare in modern browsers)
-        }
-
-        // We use absolute positioning based on page/client coordinates for smoother drag
-        // Actually, simplest is transform translate from original position
-        // e.clientX/Y minus the start relative offsets
-        
-        // Let's use a simpler approach: calculate delta from the start down position
-        if (card._startX === undefined) {
-             card._startX = e.clientX;
-             card._startY = e.clientY;
-        }
-        
-        const deltaX = e.clientX - card._startX;
-        const deltaY = e.clientY - card._startY;
-        
+        const deltaX = e.clientX - startPointerX;
+        const deltaY = e.clientY - startPointerY;
         const tilt = Math.max(-10, Math.min(10, deltaX * 0.05));
         
-        card.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(1.05) rotate(${tilt}deg)`;
+        lastTranslate = `translate(${deltaX}px, ${deltaY}px)`;
+        card.style.transform = `${lastTranslate} scale(1.05) rotate(${tilt}deg)`;
         
-        // Check hover over towers (visual only)
-        // Temporarily hide card so elementFromPoint sees what's underneath
+        // Find tower by card center to be more accurate on mobile
+        const rect = card.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        
         card.style.visibility = 'hidden';
-        const elBeneath = document.elementFromPoint(e.clientX, e.clientY);
+        const elBeneath = document.elementFromPoint(cx, cy);
         card.style.visibility = 'visible';
         
         document.querySelectorAll('.tower').forEach(t => t.classList.remove('drag-over'));
@@ -113,29 +92,28 @@ const Game1 = (() => {
         isDragging = false;
         card.releasePointerCapture(e.pointerId);
         card.classList.remove('dragging-custom');
-        card._startX = undefined;
-        card._startY = undefined;
+        
+        const rect = card.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
         
         card.style.visibility = 'hidden';
-        const elBeneath = document.elementFromPoint(e.clientX, e.clientY);
+        const elBeneath = document.elementFromPoint(cx, cy);
         card.style.visibility = 'visible';
         
         document.querySelectorAll('.tower').forEach(t => t.classList.remove('drag-over'));
         const tower = elBeneath ? elBeneath.closest('.tower') : null;
         
         if (tower) {
-          card.style.transform = `translate(${card.style.transform.split('translate(')[1].split(')')[0]}) scale(0.5)`;
+          card.style.transform = `${lastTranslate} scale(0.5)`;
           card.style.opacity = '0';
           setTimeout(() => handleDrop(tower.dataset.article, card), 150);
         } else {
-          // Snap back
           dragWord = null;
           card.style.transition = 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
           card.style.transform = 'translate(0px, 0px) scale(1) rotate(0deg)';
           card.style.zIndex = '';
-          setTimeout(() => {
-              card.style.transition = '';
-          }, 300);
+          setTimeout(() => { if(card) card.style.transition = ''; }, 300);
         }
       });
       
@@ -148,9 +126,7 @@ const Game1 = (() => {
          card.style.transition = 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
          card.style.transform = 'translate(0px, 0px) scale(1) rotate(0deg)';
          card.style.zIndex = '';
-         card._startX = undefined;
-         card._startY = undefined;
-         setTimeout(() => card.style.transition = '', 300);
+         setTimeout(() => { if(card) card.style.transition = ''; }, 300);
       });
 
       hand.appendChild(card);
