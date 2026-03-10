@@ -420,10 +420,33 @@ body {
 /* ── Article legend ── */
 .article-legend {
   display: flex;
-  gap: 16px;
+  gap: 8px;
   margin-bottom: 14px;
-  font-size: 12px;
+}
+
+.badge-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
   font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  transition: all 0.2s;
+  opacity: 0.6;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.badge-btn:hover {
+  opacity: 1;
+}
+
+.badge-btn.active {
+  opacity: 1;
 }
 
 .badge-der {
@@ -436,6 +459,21 @@ body {
 
 .badge-das {
   color: var(--das);
+}
+
+.badge-btn.badge-der.active {
+  background: var(--der-bg);
+  border-color: var(--der-border);
+}
+
+.badge-btn.badge-die.active {
+  background: var(--die-bg);
+  border-color: var(--die-border);
+}
+
+.badge-btn.badge-das.active {
+  background: var(--das-bg);
+  border-color: var(--das-border);
 }
 
 /* ── Word grid ── */

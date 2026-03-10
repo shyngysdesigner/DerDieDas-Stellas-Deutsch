@@ -43,6 +43,8 @@ const Dictionary = (() => {
     let activeCategory = 'all';
     let searchQuery = '';
     let searchListenerAdded = false;
+    let allCollapsed = false;
+    let activeArticleFilter = null; // null means show all
     // Track which category groups are collapsed (key = category key)
     const collapsedGroups = {};
 
@@ -106,6 +108,11 @@ const Dictionary = (() => {
         // Category filter
         if (activeCategory && activeCategory !== 'all') {
             words = words.filter(w => w.category === activeCategory);
+        }
+
+        // Article filter
+        if (activeArticleFilter) {
+            words = words.filter(w => w.article === activeArticleFilter);
         }
 
         if (!words.length) {
@@ -496,6 +503,41 @@ const Dictionary = (() => {
                     renderGrid();
                 });
             }
+
+            const foldAllBtn = document.getElementById('btn-fold-all');
+            if (foldAllBtn) {
+                foldAllBtn.addEventListener('click', () => {
+                    allCollapsed = !allCollapsed;
+                    const cats = App.state.categories || {};
+                    Object.keys(cats).forEach(k => {
+                        collapsedGroups[k] = allCollapsed;
+                    });
+
+                    const refNode = document.getElementById('icon-fold');
+                    if (refNode) {
+                        refNode.outerHTML = `<i data-lucide="${allCollapsed ? 'unfold-vertical' : 'fold-vertical'}" id="icon-fold" class="icon-sm" style="width: 16px; height: 16px;"></i>`;
+                    }
+
+                    renderGrid();
+                });
+            }
+
+            const articleBtns = document.querySelectorAll('.badge-btn');
+            articleBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const article = btn.dataset.article;
+                    if (activeArticleFilter === article) {
+                        activeArticleFilter = null;
+                        btn.classList.remove('active');
+                    } else {
+                        activeArticleFilter = article;
+                        articleBtns.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                    }
+                    renderGrid();
+                });
+            });
+
             searchListenerAdded = true;
             setupSwipeToClose();
         }

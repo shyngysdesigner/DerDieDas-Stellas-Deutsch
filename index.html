@@ -76,10 +76,19 @@
           </button>
         </div>
 
-        <div class="article-legend">
-          <span class="badge-der"><i data-lucide="circle" class="icon-xs"></i> der</span>
-          <span class="badge-die"><i data-lucide="circle" class="icon-xs"></i> die</span>
-          <span class="badge-das"><i data-lucide="circle" class="icon-xs"></i> das</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <div class="article-legend" style="margin-bottom: 0;">
+            <button class="badge-btn badge-der" data-article="der"><i data-lucide="circle" class="icon-xs"></i>
+              der</button>
+            <button class="badge-btn badge-die" data-article="die"><i data-lucide="circle" class="icon-xs"></i>
+              die</button>
+            <button class="badge-btn badge-das" data-article="das"><i data-lucide="circle" class="icon-xs"></i>
+              das</button>
+          </div>
+          <button class="icon-btn" id="btn-fold-all" title="Alle ein-/ausklappen" aria-label="Toggle all categories"
+            style="height: 30px; width: 30px; background: var(--surface2);">
+            <i data-lucide="fold-vertical" id="icon-fold" class="icon-sm" style="width: 16px; height: 16px;"></i>
+          </button>
         </div>
 
         <div id="dict-grid" class="word-grid"></div>
