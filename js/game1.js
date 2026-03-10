@@ -37,7 +37,7 @@ const Game1 = (() => {
     remaining.forEach(word => {
       const card = document.createElement('div');
       card.className = 'drag-card';
-      card.draggable = true;
+      card.draggable = false;
       card.dataset.id = word.id;
       card.innerHTML = `
         <div>${word.word}</div>

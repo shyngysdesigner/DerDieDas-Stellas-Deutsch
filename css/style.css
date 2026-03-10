@@ -1515,6 +1515,7 @@ body {
   cursor: grab;
   -webkit-user-select: none;
   user-select: none;
+  touch-action: none;
   transition: all .2s;
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--border);
