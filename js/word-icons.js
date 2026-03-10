@@ -264,3 +264,25 @@ function getWordIcon(word) {
     };
     return catFallbacks[word.category] || '📝';
 }
+
+/**
+ * Generate a consistent, unique emoji for a word if no predefined icon exists.
+ */
+function getDeterministicEmoji(wordStr) {
+    if (!wordStr) return '📝';
+    const fallbackEmojis = [
+        '🌟', '🚀', '🎈', '🎨', '🧩', '💎', '💡', '🔥', '🌊', '🍀',
+        '☀️', '🌙', '⭐', '🌈', '⚡', '⛄', '🍎', '🍒', '🌻', '🌺',
+        '🍁', '🍄', '🌍', '🏠', '🏰', '🗺️', '⚓', '🔔', '🎵', '📺',
+        '📸', '📚', '✏️', '🖌️', '🔍', '🔑', '🎁', '🧸', '🧿', '🔮',
+        '🪐', '🦖', '🐉', '🦋', '🐢', '🐙', '🦜', '🦄', '🎭', '🎪',
+        '🎯', '🎣', '🎳', '🎲', '🧩', '🪄', '💎', '👑', '👒', '🧣',
+        '🧤', '👟', '☂️', '😎', '🤠', '👽', '👻', '🤖', '👾', '🎃'
+    ];
+    let hash = 0;
+    for (let i = 0; i < wordStr.length; i++) {
+        hash = wordStr.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    hash = Math.abs(hash);
+    return fallbackEmojis[hash % fallbackEmojis.length];
+}

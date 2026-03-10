@@ -20,11 +20,11 @@
   <!-- Scripts (deferred for performance) -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
   <script src="js/words-data.js" defer></script>
-  <script src="js/app.js" defer></script>
+  <script src="js/app.js?v=2" defer></script>
   <script src="js/word-icons.js" defer></script>
   <script src="js/word-scenes.js" defer></script>
-  <script src="js/dictionary.js" defer></script>
-  <script src="js/translator.js" defer></script>
+  <script src="js/dictionary.js?v=2" defer></script>
+  <script src="js/translator.js?v=2" defer></script>
   <script src="js/falcon.js" defer></script>
   <script src="js/game1.js" defer></script>
   <script src="js/game2.js" defer></script>
@@ -53,8 +53,34 @@
         <button class="icon-btn" id="btn-theme" title="Theme" aria-label="Toggle Theme">
           <i data-lucide="sun" class="icon-sm" id="theme-icon"></i>
         </button>
+        <button class="icon-btn" id="btn-settings" title="Settings" aria-label="Open Settings">
+          <i data-lucide="settings" class="icon-sm"></i>
+        </button>
       </div>
     </nav>
+
+    <!-- ══ Settings Modal ══ -->
+    <div id="settings-modal" class="modal-overlay">
+      <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <button class="modal-close-top" id="btn-close-settings" aria-label="Close settings">
+          <i data-lucide="x" class="icon-sm"></i>
+        </button>
+        <div class="modal-inner">
+          <div class="section-header" style="margin-bottom: 24px;">
+            <h2 class="section-title">Einstellungen</h2>
+          </div>
+          
+          <div class="card" style="margin-bottom: 20px;">
+            <div class="card-title">Stimme (Voice)</div>
+            <p class="label-dim" style="margin-bottom: 12px;">Wähle die Stimme für die deutsche Aussprache:</p>
+            <select id="voice-select" class="search-input" style="width: 100%; padding: 12px; background: var(--surface2); border-radius: var(--radius-sm); border: 1px solid var(--border); color: var(--text);">
+              <option value="">Automatisch (System Standard)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- ══ Main Content ══ -->
     <main id="main-content">
@@ -63,8 +89,8 @@
       <div id="home-view" class="view active">
         <div class="search-bar-wrap">
           <i data-lucide="search" class="icon-sm search-icon"></i>
-          <input type="text" id="dict-search" class="search-input" placeholder="Suchen… / Search…" />
-          <button class="icon-btn" id="dict-search-clear" style="display:none" aria-label="Clear search">
+          <input type="text" id="dict-search" class="search-input" placeholder="Suchen…" />
+          <button class="icon-btn" id="dict-search-clear" style="display:none" aria-label="Suche löschen">
             <i data-lucide="x" class="icon-sm"></i>
           </button>
         </div>
@@ -140,9 +166,12 @@
         </div>
 
         <div class="section-header" style="margin-top:20px">
-          <h2 class="section-title" data-i18n="your-files">Wörtergruppen</h2>
+          <h2 class="section-title" data-i18n="search-history">Suchverlauf</h2>
+          <button class="btn btn-ghost btn-sm" id="btn-clear-history" style="display:none">
+            <i data-lucide="trash-2" class="icon-sm"></i>
+          </button>
         </div>
-        <div class="csv-categories" id="csv-cat-grid"></div>
+        <div class="word-grid" id="history-grid"></div>
       </div>
 
       <!-- ════ GAMES HUB ════ -->

@@ -11,7 +11,7 @@ const App = (() => {
             translator: 'Übersetzer', 'translator-sub': 'DE / RU',
             'input-word': 'Deutsches oder russisches Wort:',
             translate: 'Übersetzen', 'from-files': 'Schnellauswahl:',
-            'your-files': 'Deine Dateien',
+            'your-files': 'Deine Dateien', 'search-history': 'Suchverlauf',
             'games-sub': '3 verfügbar',
             'g1-title': 'Tower Defense', 'g1-desc': 'Ziehe Wörter auf den richtigen Turm', 'g1-title-tag': 'Spiel 1 · Empfohlen',
             'g2-title': 'Elixir Rush', 'g2-desc': 'Wähle den Artikel — schnell!',
@@ -37,7 +37,7 @@ const App = (() => {
             translator: 'Переводчик', 'translator-sub': 'DE / RU',
             'input-word': 'Немецкое или русское слово:',
             translate: 'Перевести', 'from-files': 'Быстрый выбор:',
-            'your-files': 'Твои файлы',
+            'your-files': 'Твои файлы', 'search-history': 'История поиска',
             'games-sub': '3 доступных',
             'g1-title': 'Защита башни', 'g1-desc': 'Перетащи слово на нужную башню', 'g1-title-tag': 'Игра 1 · Рекомендуем',
             'g2-title': 'Эликсир Раш', 'g2-desc': 'Выбери артикль — быстро!',
@@ -69,6 +69,7 @@ const App = (() => {
         totalAttempts: 0,
         lang: 'de',    // 'de' | 'ru'
         theme: 'light', // 'light' | 'dark'
+        voiceURI: '',   // Selected TTS voice URI
         xpHistory: [],  // [{date:'YYYY-MM-DD', xp:N, correct:N, attempts:N}]
         sessionStart: Date.now()
     };
@@ -83,6 +84,7 @@ const App = (() => {
             state.totalAttempts = s.totalAttempts || 0;
             state.lang = s.lang || 'de';
             state.theme = s.theme || 'light';
+            state.voiceURI = s.voiceURI || '';
             state.xpHistory = s.xpHistory || [];
         } catch (e) { }
     }
@@ -91,7 +93,7 @@ const App = (() => {
         localStorage.setItem('derdiedas', JSON.stringify({
             xp: state.xp, streak: state.streak,
             totalCorrect: state.totalCorrect, totalAttempts: state.totalAttempts,
-            lang: state.lang, theme: state.theme,
+            lang: state.lang, theme: state.theme, voiceURI: state.voiceURI,
             xpHistory: state.xpHistory
         }));
     }
@@ -126,30 +128,112 @@ const App = (() => {
     }
 
     // ── TTS ─────────────────────────────────────────────────
+    function loadVoices() {
+        if (!window.speechSynthesis) return;
+        const select = document.getElementById('voice-select');
+        if (!select) return;
+        
+        const voices = speechSynthesis.getVoices();
+        if (!voices.length) return;
+
+        // Filter for German and a few known good multilingual voices
+        const germanVoices = voices.filter(v => v.lang.startsWith('de') || v.name.includes('German') || v.name.includes('Deutsch') || v.name === 'Anna');
+        
+        select.innerHTML = '<option value="">Automatisch (System Standard)</option>';
+        germanVoices.forEach(v => {
+            const opt = document.createElement('option');
+            opt.value = v.voiceURI;
+            opt.textContent = `${v.name} (${v.lang})`;
+            if (v.voiceURI === state.voiceURI) opt.selected = true;
+            select.appendChild(opt);
+        });
+    }
+
     function speak(text, lang = 'de-DE') {
         if (!window.speechSynthesis) return;
+        
+        // Workaround for speech synthesis hanging on some devices/browsers
+        speechSynthesis.pause();
+        speechSynthesis.resume();
         speechSynthesis.cancel();
-        const utt = new SpeechSynthesisUtterance(text);
-        utt.lang = lang;
-        utt.rate = 0.82;
-        utt.pitch = 1.05;
+        
+        // Timeout to ensure cancel finishes
+        setTimeout(() => {
+            const utt = new SpeechSynthesisUtterance(text);
+            utt.lang = lang;
+            utt.rate = 0.82;
+            utt.pitch = 1.05;
 
-        // Pick best available voice
-        const voices = speechSynthesis.getVoices();
-        const prefer = [
-            'Google Deutsch', 'Microsoft Conrad Online', 'Microsoft Hedda Online',
-            'Anna', 'Google Deutsch', 'de-DE'
-        ];
-        let chosen = null;
-        for (const name of prefer) {
-            const v = voices.find(v => v.name.includes(name) || v.lang === name);
-            if (v) { chosen = v; break; }
+            const voices = speechSynthesis.getVoices();
+            let chosen = null;
+
+            // 1. Try user selected voice
+            if (state.voiceURI) {
+                chosen = voices.find(v => v.voiceURI === state.voiceURI);
+            }
+            
+            // 2. Try preferred voices
+            if (!chosen) {
+                const prefer = [
+                    'Google Deutsch', 'Microsoft Conrad Online', 'Microsoft Hedda Online',
+                    'Anna', 'Google Deutsch', 'de-DE'
+                ];
+                for (const name of prefer) {
+                    const v = voices.find(v => v.name.includes(name) || v.lang === name);
+                    if (v) { chosen = v; break; }
+                }
+            }
+            
+            // 3. Fallback to any German voice
+            if (!chosen) {
+                chosen = voices.find(v => v.lang && v.lang.startsWith('de'));
+            }
+            
+            if (chosen) utt.voice = chosen;
+            
+            // Fix: Keep a reference to prevent garbage collection on long texts
+            window.__speechSynthesisUtterance = utt;
+            
+            speechSynthesis.speak(utt);
+        }, 50);
+    }
+    
+    // ── Settings ─────────────────────────────────────────────
+    function initSettings() {
+        const modal = document.getElementById('settings-modal');
+        const btnOpen = document.getElementById('btn-settings');
+        const btnClose = document.getElementById('btn-close-settings');
+        const voiceSelect = document.getElementById('voice-select');
+
+        if (btnOpen && modal) {
+            btnOpen.addEventListener('click', () => {
+                loadVoices();
+                modal.classList.add('open');
+            });
         }
-        if (!chosen) {
-            chosen = voices.find(v => v.lang && v.lang.startsWith('de'));
+
+        if (btnClose && modal) {
+            btnClose.addEventListener('click', () => modal.classList.remove('open'));
         }
-        if (chosen) utt.voice = chosen;
-        speechSynthesis.speak(utt);
+        
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('open');
+            });
+        }
+
+        if (voiceSelect) {
+            voiceSelect.addEventListener('change', (e) => {
+                state.voiceURI = e.target.value;
+                saveStorage();
+                speak('Die Stimme wurde geändert.'); // Test the new voice
+            });
+        }
+        
+        // Chrome sometimes needs this to load voices initially
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
     }
 
     // ── i18n ────────────────────────────────────────────────
@@ -166,7 +250,7 @@ const App = (() => {
         });
         // Search placeholder
         const si = document.getElementById('dict-search');
-        if (si) si.placeholder = state.lang === 'de' ? 'Suchen… / Search…' : 'Поиск…';
+        if (si) si.placeholder = state.lang === 'de' ? 'Suchen…' : 'Поиск…';
         // Lang chip
         const chip = document.getElementById('lang-label');
         if (chip) chip.textContent = state.lang === 'de' ? 'RU' : 'DE';
@@ -264,6 +348,9 @@ const App = (() => {
 
         // Init Lucide
         if (window.lucide) lucide.createIcons();
+
+        // Init Settings
+        initSettings();
 
         // Start at home
         navigate('home');

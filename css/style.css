@@ -67,8 +67,8 @@
   --border: rgba(255, 255, 255, .12);
   --border2: rgba(255, 255, 255, .06);
   --text: #FFFFFF;
-  --text2: rgba(235, 235, 245, .7);
-  --text3: rgba(235, 235, 245, .3);
+  --text2: rgba(255, 255, 255, .85);
+  --text3: rgba(255, 255, 255, .6);
   --highlight: rgba(88, 86, 214, .15);
   --der-bg: rgba(37, 99, 235, .15);
   --die-bg: rgba(219, 39, 119, .15);
@@ -613,6 +613,22 @@ body {
 
 .das-card .art-strip {
   background: var(--das);
+}
+
+/* Custom drag states for Game 1 */
+.drag-card.dragging-custom {
+  opacity: 0.95;
+  box-shadow: var(--shadow-lg);
+  cursor: grabbing;
+  /* Remove transition while pointer is moving so it tracks 1:1 */
+  transition: opacity 0.2s, box-shadow 0.2s;
+}
+
+.tower.drag-over {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 3px var(--text3);
+  filter: brightness(1.1);
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
 }
 
 .no-art .art-strip {

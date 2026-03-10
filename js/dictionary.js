@@ -116,7 +116,7 @@ const Dictionary = (() => {
         }
 
         if (!words.length) {
-            grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text3);padding:48px 0;font-weight:500">Keine Ergebnisse / No results</div>';
+            grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text3);padding:48px 0;font-weight:500">Keine Ergebnisse</div>';
             return;
         }
 
@@ -562,5 +562,5 @@ const Dictionary = (() => {
         });
     }
 
-    return { render, openModal, renderGrid };
+    return { render, openModal, renderGrid, getExamples };
 })();
