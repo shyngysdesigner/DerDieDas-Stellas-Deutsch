@@ -82,11 +82,11 @@ const Game4 = {
        if (c === '"' && inString && next === '"') { cell += '"'; i++; }
        else if (c === '"') { inString = !inString; }
        else if (c === ',' && !inString) { row.push(cell); cell = ''; }
-       else if (c === '\\n' && !inString) { 
+       else if (c === '\n' && !inString) { 
          row.push(cell); rows.push(row); 
          row = []; cell = ''; 
        }
-       else if (c === '\\r') {} // ignore
+       else if (c === '\r') {} // ignore
        else { cell += c; }
      }
      if (cell) row.push(cell);
