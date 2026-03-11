@@ -37,7 +37,7 @@ const Game4 = {
   },
 
   start() {
-    if (window.App) App.navigate('game4');
+    if (typeof App !== 'undefined') App.navigate('game4');
     this.resetState();
     this.updateUI();
   },
@@ -140,10 +140,10 @@ const Game4 = {
     });
 
     if (!allFilled) {
-      if (window.Falcon) window.Falcon.speak("Bitte fülle alle Lücken aus!");
+      if (typeof Falcon !== 'undefined' && Falcon.speak) Falcon.speak("Bitte fülle alle Lücken aus!");
       this.els.feedback.textContent = "Bitte fülle alle Lücken aus!";
       this.els.feedback.className = 'feedback feedback-wrong';
-      setTimeout(() => this.els.feedback.className = 'feedback', 1500);
+      setTimeout(() => { if(this.els.feedback) this.els.feedback.className = 'feedback' }, 1500);
       return;
     }
 
@@ -166,25 +166,33 @@ const Game4 = {
     });
 
     // We reached the end of checking
+    if (typeof App !== 'undefined') {
+        App.recordAnswer(allCorrect);
+    }
+
     if (allCorrect) {
       // Add XP base 5 + 2 for each blank
       const xpGained = 5 + (this.state.totalBlanks * 2);
       this.state.score += xpGained;
-      if (window.Stats) window.Stats.addXP(xpGained);
-      if (window.Stats) window.Stats.recordWord('game4_' + this.state.round, true);
+      if (typeof App !== 'undefined') App.addXP(xpGained);
       
       this.els.feedback.textContent = `Richtig! +${xpGained} XP`;
       this.els.feedback.className = 'feedback feedback-correct';
       
-      if (window.Falcon) window.Falcon.speak("Perfekt gemacht!");
+      if (typeof Falcon !== 'undefined') {
+          if (Falcon.onCorrect) Falcon.onCorrect();
+          else if (Falcon.speak) Falcon.speak("Perfekt gemacht!");
+      }
 
       this.els.checkBtn.style.display = 'none';
       this.els.nextBtn.style.display = 'inline-flex';
     } else {
-      if (window.Stats) window.Stats.recordWord('game4_' + this.state.round, false);
       this.els.feedback.textContent = `${correctCount} von ${this.state.totalBlanks} richtig. Versuche es nochmal!`;
       this.els.feedback.className = 'feedback feedback-wrong';
-      if (window.Falcon) window.Falcon.speak("Noch nicht ganz richtig.");
+      if (typeof Falcon !== 'undefined') {
+          if (Falcon.onWrong) Falcon.onWrong();
+          else if (Falcon.speak) Falcon.speak("Noch nicht ganz richtig.");
+      }
     }
     
     this.updateUI();
@@ -211,7 +219,7 @@ const Game4 = {
     this.els.checkBtn.style.display = 'none';
     this.els.nextBtn.style.display = 'none';
     
-    if (window.Stats) window.Stats.render();
+    if (typeof Stats !== 'undefined') Stats.render();
   },
 
   updateUI() {
