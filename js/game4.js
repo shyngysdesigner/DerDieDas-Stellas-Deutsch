@@ -11,6 +11,7 @@ const Game4 = {
     answersCorrect: 0, // Number of correct dropdowns in the current text
     totalBlanks: 0
   },
+  csvData: [],
 
   init() {
     this.els = {
@@ -36,10 +37,69 @@ const Game4 = {
     }
   },
 
-  start() {
+  async start() {
     if (typeof App !== 'undefined') App.navigate('game4');
+
+    if (this.els.startBtn) {
+        this.els.startBtn.disabled = true;
+        this.els.startBtn.innerHTML = '<i data-lucide="loader-circle" class="icon-sm spinning"></i> Lade Texte...';
+        if(window.lucide) lucide.createIcons();
+    }
+
+    await this.loadCSV();
+
+    if (this.els.startBtn) {
+        this.els.startBtn.disabled = false;
+        this.els.startBtn.innerHTML = '<i data-lucide="play" class="icon-sm"></i> Start';
+        if(window.lucide) lucide.createIcons();
+    }
+
     this.resetState();
     this.updateUI();
+  },
+
+  async loadCSV() {
+    if (this.csvData && this.csvData.length > 0) return true;
+    try {
+        const response = await fetch('data/texts.csv');
+        const text = await response.text();
+        this.csvData = this.parseCSV(text);
+        return true;
+    } catch(e) {
+        console.error("Failed to load CSV:", e);
+        return false;
+    }
+  },
+
+  parseCSV(text) {
+     const rows = [];
+     let row = [];
+     let inString = false;
+     let cell = '';
+     for (let i = 0; i < text.length; i++) {
+       let c = text[i];
+       let next = text[i+1];
+       if (c === '"' && inString && next === '"') { cell += '"'; i++; }
+       else if (c === '"') { inString = !inString; }
+       else if (c === ',' && !inString) { row.push(cell); cell = ''; }
+       else if (c === '\\n' && !inString) { 
+         row.push(cell); rows.push(row); 
+         row = []; cell = ''; 
+       }
+       else if (c === '\\r') {} // ignore
+       else { cell += c; }
+     }
+     if (cell) row.push(cell);
+     if (row.length > 0) rows.push(row);
+     
+     // Map to Javascript objects
+     return rows.slice(1).filter(r => r.length >= 2).map(r => ({
+         text: r[0],
+         answers: r[1] ? r[1].split('|') : [],
+         translation: r[2] || '',
+         level: r[3] || '',
+         grammar: r[4] || ''
+     }));
   },
 
   resetState() {
@@ -66,14 +126,15 @@ const Game4 = {
   },
 
   loadRound() {
-    if (!window.TextsData || window.TextsData.length === 0) {
+    if (!this.csvData || this.csvData.length === 0) {
       console.error("No texts data found.");
+      this.els.textContainer.innerHTML = '<div class="g3-sentence" style="text-align: center; color: var(--red)">Ladefehler (CSV defekt)</div>';
       return;
     }
 
-    // Pick a random text
-    const randomIndex = Math.floor(Math.random() * window.TextsData.length);
-    this.state.currentTextObj = window.TextsData[randomIndex];
+    // Pick a random text from the parsed CSV
+    const randomIndex = Math.floor(Math.random() * this.csvData.length);
+    this.state.currentTextObj = this.csvData[randomIndex];
     this.state.answersCorrect = 0;
     this.state.totalBlanks = this.state.currentTextObj.answers.length;
 
