@@ -29,6 +29,8 @@
   <script src="js/game1.js" defer></script>
   <script src="js/game2.js" defer></script>
   <script src="js/game3.js" defer></script>
+  <script src="js/texts-data.js" defer></script>
+  <script src="js/game4.js" defer></script>
   <script src="js/stats.js" defer></script>
 </head>
 
@@ -274,6 +276,21 @@
               <i data-lucide="book-open" style="width:11px;height:11px"></i> Im Kontext
             </div>
           </button>
+
+          <!-- Article Master (Game 4) -->
+          <button class="game-card-new" onclick="Game4.start()"
+            style="--card-accent:#8B5CF6;--card-accent-bg:rgba(139,92,246,.12)">
+            <div class="game-card-icon">
+              <i data-lucide="type" style="width:22px;height:22px;color:#8B5CF6"></i>
+            </div>
+            <div>
+              <div class="game-card-title" data-i18n="g4-title">Text Master</div>
+              <div class="game-card-desc" data-i18n="g4-desc">Fülle die Lücken im Text</div>
+            </div>
+            <div class="game-card-badge">
+              <i data-lucide="align-left" style="width:11px;height:11px"></i> Leseverstehen
+            </div>
+          </button>
         </div>
       </div>
 
@@ -422,6 +439,50 @@
             <button id="g3-start-btn" class="btn btn-primary">
               <i data-lucide="play" class="icon-sm"></i>
               <span data-i18n="start">Spiel starten</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════ GAME 4 — TEXT MASTER (Fill in the blanks) ════ -->
+      <div id="game4-view" class="view">
+        <div class="game-topbar">
+          <button class="btn btn-ghost btn-sm" onclick="App.navigate('games')" aria-label="Back to games">
+            <i data-lucide="arrow-left" class="icon-sm"></i>
+          </button>
+          <span class="game-topbar-title" data-i18n="g4-title">Text Master</span>
+          <div class="game-topbar-xp" id="g4-xp-display">⚡ 0</div>
+        </div>
+
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="g4-progress" style="width:0%"></div>
+        </div>
+        <div class="progress-label" id="g4-progress-label">0 / 10</div>
+
+        <div id="g4-area" style="padding-top: 20px;">
+          
+          <div class="g4-text-card">
+            <div id="g4-text-container" class="g4-text-content">
+              <!-- Text with dropdowns will be injected here -->
+              <div class="g3-sentence" style="text-align: center; color: var(--text3)" data-i18n="g4-press-start">Drücke Start</div>
+            </div>
+            <div class="g4-trans" id="g4-trans" style="margin-top: 16px;"></div>
+          </div>
+
+          <div class="feedback" id="g4-feedback" style="margin-top: 16px;"></div>
+
+          <div class="game-start-wrap">
+            <button id="g4-start-btn" class="btn btn-primary">
+              <i data-lucide="play" class="icon-sm"></i>
+              <span data-i18n="start">Spiel starten</span>
+            </button>
+            <button id="g4-check-btn" class="btn btn-primary" style="display: none; width: 100%;">
+              <i data-lucide="check-circle" class="icon-sm"></i>
+              <span data-i18n="check">Überprüfen</span>
+            </button>
+            <button id="g4-next-btn" class="btn btn-ghost" style="display: none; width: 100%; margin-top: 10px;">
+              <span data-i18n="next">Weiter</span>
+              <i data-lucide="arrow-right" class="icon-sm"></i>
             </button>
           </div>
         </div>

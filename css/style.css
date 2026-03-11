@@ -1755,6 +1755,74 @@ body {
   opacity: .35;
 }
 
+/* ── Game 4: Text Master ── */
+.g4-text-card {
+  background: var(--surface2);
+  border-radius: var(--radius-lg);
+  padding: 22px 20px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.g4-text-content {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 2;
+  color: var(--text);
+}
+
+.g4-trans {
+  font-size: 13px;
+  color: var(--text3);
+  font-weight: 400;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+
+.g4-select {
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--brand);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: 2px 30px 2px 8px; /* Room for custom arrow */
+  margin: 0 4px;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  outline: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%231C1C1E" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 4px center;
+  transition: all 0.2s;
+}
+
+[data-theme="dark"] .g4-select {
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23EBEBF5" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+}
+
+.g4-select:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(88, 86, 214, 0.2);
+}
+
+.g4-select.correct {
+  color: var(--success);
+  border-color: var(--success);
+  background-color: rgba(40, 167, 69, 0.1);
+  background-image: none; /* Hide arrow on success */
+  padding-right: 8px; /* remove padding for arrow */
+}
+
+.g4-select.wrong {
+  color: var(--danger);
+  border-color: var(--danger);
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
 /* ── Stats ── */
 .xp-bar-wrap {
   margin-bottom: 20px;
