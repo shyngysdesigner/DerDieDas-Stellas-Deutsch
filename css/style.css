@@ -60,25 +60,31 @@
 
 [data-theme="dark"] {
   --bg: #000000;
-  --bg2: #1C1C1E;
-  --surface: #1C1C1E;
-  --surface2: #2C2C2E;
-  --surface3: rgba(28, 28, 30, 0.85);
-  --border: rgba(255, 255, 255, .12);
-  --border2: rgba(255, 255, 255, .06);
-  --text: #FFFFFF;
-  --text2: rgba(255, 255, 255, .85);
-  --text3: rgba(255, 255, 255, .6);
-  --highlight: rgba(88, 86, 214, .15);
-  --der-bg: rgba(37, 99, 235, .15);
-  --die-bg: rgba(219, 39, 119, .15);
-  --das-bg: rgba(5, 150, 105, .15);
-  --der-border: rgba(37, 99, 235, .4);
-  --die-border: rgba(219, 39, 119, .4);
-  --das-border: rgba(5, 150, 105, .4);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, .3);
-  --shadow: 0 4px 20px rgba(0, 0, 0, .4);
-  --shadow-lg: 0 8px 40px rgba(0, 0, 0, .6);
+  --bg2: #121212;
+  --surface: #1e1e1e;
+  --surface2: #282828;
+  --surface3: rgba(30, 30, 30, 0.85);
+  --border: rgba(255, 255, 255, 0.2);
+  --border2: rgba(255, 255, 255, 0.1);
+  --text: #ffffff;
+  --text2: #f0f0f0;
+  --text3: #a0a0a0;
+  --highlight: rgba(100, 150, 255, 0.15);
+  
+  /* Samsung One UI style vibrant article colors for high contrast */
+  --der: #3E91FF;
+  --die: #FF579A;
+  --das: #0ABF83;
+
+  --der-bg: rgba(62, 145, 255, 0.2);
+  --die-bg: rgba(255, 87, 154, 0.2);
+  --das-bg: rgba(10, 191, 131, 0.2);
+  --der-border: rgba(62, 145, 255, 0.5);
+  --die-border: rgba(255, 87, 154, 0.5);
+  --das-border: rgba(10, 191, 131, 0.5);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.8);
 }
 
 /* ── Reset ── */

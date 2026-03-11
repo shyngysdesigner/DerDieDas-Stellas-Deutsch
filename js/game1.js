@@ -73,17 +73,21 @@ const Game1 = (() => {
         lastTranslate = `translate(${deltaX}px, ${deltaY}px)`;
         card.style.transform = `${lastTranslate} scale(1.05) rotate(${tilt}deg)`;
         
-        // Find tower by card center to be more accurate on mobile
-        const rect = card.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
+        // Find tower by distance to pointer
+        let minDist = Infinity;
+        let tower = null;
+        document.querySelectorAll('.tower').forEach(t => {
+          t.classList.remove('drag-over');
+          const tr = t.getBoundingClientRect();
+          const tx = tr.left + tr.width / 2;
+          const ty = tr.top + tr.height / 2;
+          const dist = Math.hypot(e.clientX - tx, e.clientY - ty);
+          if (dist < minDist && dist < 120) {
+            minDist = dist;
+            tower = t;
+          }
+        });
         
-        card.style.visibility = 'hidden';
-        const elBeneath = document.elementFromPoint(cx, cy);
-        card.style.visibility = 'visible';
-        
-        document.querySelectorAll('.tower').forEach(t => t.classList.remove('drag-over'));
-        const tower = elBeneath ? elBeneath.closest('.tower') : null;
         if (tower) tower.classList.add('drag-over');
       });
 
@@ -93,16 +97,19 @@ const Game1 = (() => {
         card.releasePointerCapture(e.pointerId);
         card.classList.remove('dragging-custom');
         
-        const rect = card.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        
-        card.style.visibility = 'hidden';
-        const elBeneath = document.elementFromPoint(cx, cy);
-        card.style.visibility = 'visible';
-        
-        document.querySelectorAll('.tower').forEach(t => t.classList.remove('drag-over'));
-        const tower = elBeneath ? elBeneath.closest('.tower') : null;
+        let minDist = Infinity;
+        let tower = null;
+        document.querySelectorAll('.tower').forEach(t => {
+          t.classList.remove('drag-over');
+          const tr = t.getBoundingClientRect();
+          const tx = tr.left + tr.width / 2;
+          const ty = tr.top + tr.height / 2;
+          const dist = Math.hypot(e.clientX - tx, e.clientY - ty);
+          if (dist < minDist && dist < 120) {
+            minDist = dist;
+            tower = t;
+          }
+        });
         
         if (tower) {
           card.style.transform = `${lastTranslate} scale(0.5)`;
